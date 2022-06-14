@@ -30,15 +30,8 @@ object All {
       }
   }
 
-  implicit val allHList2: All[IntBool, HNil] = new All[IntBool, HNil] {
-    override def withElem[B, D](as: Proxy[HNil])(trap: Trap[IntBool, B] => D)(
-        implicit ev: Elem[B, HNil]
-    ): D =
-      sys.error("hmmm")
-  }
-
-  implicit val allHList3: All[Show, HNil] = new All[Show, HNil] {
-    override def withElem[B, D](as: Proxy[HNil])(trap: Trap[Show, B] => D)(
+  implicit def allHList2[C[_]]: All[C, HNil] = new All[C, HNil] {
+    override def withElem[B, D](as: Proxy[HNil])(trap: Trap[C, B] => D)(
         implicit ev: Elem[B, HNil]
     ): D =
       sys.error("hmmm")
