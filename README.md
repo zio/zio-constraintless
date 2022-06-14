@@ -2,7 +2,7 @@
 
 A discussion on http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf as Scala code
 
-A key thing to inspectable programs (example: An execution planner, a configuration DSL) is programs as descriptions. Wherever the description exist (intially, or finally) it is a known problem that descriptions shouild exist at some level, and it should hold informations as constraints - the problem this project tries to experiment with using the paper.
+A key  to inspectable programs (example: An execution planner, a configuration DSL) is the basic concept of "programs as descriptions", and this is already widely known and almost everyone lives with it. Wherever the description exist (intially, or finally) it is a known problem that descriptions shouild exist at some level. However, this data should hold on to informations as constraints with types unless compromising parametric polymorphism. However encoding specific constraint isn't a scalable code due to modularity issues (Example: Oh! I need to print the value in compiler but I cannot print the credentials involved). Parametrising the program with constraints without compromising the modularity is the the "only" problem this project tries to experiment with using the above mentined paper that is in Haskell.
 
 
 An excerpt from the paper:
