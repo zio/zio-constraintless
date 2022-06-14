@@ -6990,3 +6990,8 @@ Caused by: java.lang.IllegalArgumentException: 34 is not a valid line number, al
 	at scala.meta.internal.metals.MetalsLanguageServer.codeAction(MetalsLanguageServer.scala:1648)
 	... 15 more
 
+Jun. 14, 2022 3:08:55 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 4410
+2022.06.14 15:08:59 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 15:09:18 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 15:09:46 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
