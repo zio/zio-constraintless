@@ -51,7 +51,10 @@ instance Show a ⇒ Typeable Pretty a where valueP = Pretty · show
 ```scala
 data Exp p a where
 ValueE::Typeable p a ⇒ a → Exp p a
-CondE ::Expp Bool→Expp a →Expp a →Expp a EqE ::Eqa ⇒Expp a →Expp a →Expp Bool
+
+CondE ::Expp Bool→Exp p a → Exp p a → Exp p a 
+
+EqE :: Eq a ⇒ Exp p a → Exp p a → Exp p Bool
 ```
 
 
