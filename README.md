@@ -20,3 +20,14 @@ Wherever the description exist (Initially or finally) it is guaranteed that thes
 The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism. This naive approach is not a good idea and it imposes modularity issues. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
+## Why not the scheme of Hughes?
+
+It doesn't allow you to have a compiler with multiple constraints.
+
+With Hughe's scheme we have a Typeable interface where all expression nodes return `F[A]` where `F[_]` has an instance of `Typeable`. Note htat this `F[_]` needs to be different if the constraints are different. This means if a compiler needs multiple constraints, typechecking becomes almost impossible.
+
+
+```scala
+class Typeable p a valueP :: a → p a
+```
+
