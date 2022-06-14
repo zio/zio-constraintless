@@ -68,9 +68,9 @@ trait AllIntBool[As <: HList] {
 }
 
 object AllIntBool {
-  implicit def instanceOfHList[As <: HList]: AllIntBool[As] = new AllIntBool[As] {
-    override def toInt[B](p: Proxy[As], b: B)(implicit
-        ev: Elem[B, As]
+  implicit def instanceOfHList[A, As <: HList]: AllIntBool[A :: As] = new AllIntBool[A :: As] {
+    override def toInt[B](p: Proxy[A :: As], b: B)(implicit
+        ev: Elem[B, A :: As]
     ): Int = ???
 
   }
