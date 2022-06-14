@@ -30,6 +30,7 @@ object All {
       }
   }
 
+  // The definition is slightly from what mentioned in the paper where it traverses hlist
   implicit def allHList2[C[_]]: All[C, HNil] = new All[C, HNil] {
     override def withElem[B, D](as: Proxy[HNil])(trap: Trap[C, B] => D)(
         implicit ev: Elem[B, HNil]
