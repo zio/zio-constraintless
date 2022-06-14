@@ -27,7 +27,44 @@ It doesn't allow you to have a compiler with multiple constraints.
 With Hughe's scheme we have a Typeable interface where all expression nodes return `F[A]` where `F[_]` has an instance of `Typeable`. Note htat this `F[_]` needs to be different if the constraints are different. This means if a compiler needs multiple constraints, typechecking becomes almost impossible.
 
 
+A few excerpts from the paper:
+
 ```scala
 class Typeable p a valueP :: a → p a
 ```
 
+```scala
+newtype SM a = SM {fromSM :: Int}
+
+instance IntBool a ⇒ Typeable SM a where
+  valueP = SM · toInt
+```
+
+```scala
+
+newtype Pretty a = Pretty {fromPretty :: String}
+
+instance Show a ⇒ Typeable Pretty a where valueP = Pretty · show
+
+```
+
+```scala
+data Exp p a where
+ValueE::Typeable p a ⇒ a → Exp p a
+CondE ::Expp Bool→Expp a →Expp a →Expp a EqE ::Eqa ⇒Expp a →Expp a →Expp Bool
+```
+
+
+```scala
+pretty :: Exp Pretty a → String // works
+compileSM :: Exp SM a → String // works
+
+
+```
+
+ However, now suppose that we wish to apply the two functions to the same expression, as in:
+
+```scala
+f :: Exp p a → . . .
+f e = ...(compileSM e)...(pretty e)..
+```
