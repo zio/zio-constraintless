@@ -24,7 +24,7 @@ trait Eq[A] {
   def eq(l: A, r: A): A
 }
 
-object compiler extends Syntax {
+object compiler  {
 
   def compileSM[As <: HList, A](
       expr: Expr[As, A]
@@ -32,7 +32,7 @@ object compiler extends Syntax {
     expr match {
       case CondE(expr, ifCond, thenCond, c1, c2) =>
         s"if (${compileSM(expr)} then ${compileSM(ifCond)} else ${compileSM(thenCond)}} "
-     // case EqE(l, r, c1, c2, c3) => s" ${compileSM(l)} Equals ${compileSM(r)}"
+      case EqE(l, r, c1, c2, c3) => s" ${compileSM(l)} Equals ${compileSM(r)}"
 
       /** From paper:
         *
@@ -55,7 +55,10 @@ import HList._
 
 /**
  * All the type that comes arbitrarily in the tree has an instance
- * of IntBool - AllIntBool
+ * of IntBool - AllIntBool.
+ *
+ * The only requirement is Any B can be converted to Int, as far
+ * as B is an element of the As (in particular Proxy[As])
  */
 trait AllIntBool[As <: HList] {
   def toInt[B](p: Proxy[As], b: B)(implicit ev: B Elem As): Int
@@ -69,11 +72,4 @@ object AllIntBool {
 //    override def toInt[B](p: Proxy[A :: As], b: B)(implicit ev: Elem[B, A :: As]): Int = ???
 //
 //  }
-}
-
-trait Syntax {
-  implicit class AllIntBoolSyntax[As <: HList](p: Proxy[As]) {
-    def toInt_[B](b: B)(implicit ev: AllIntBool[As], ev2: B Elem As): Int =
-      ???
-  }
 }
