@@ -1,0 +1,4 @@
+[debug] [scala_gadt-test] Classpath dependencies List()
+[debug] [scala_gadt-test] Dependencies from configurations List(scala_gadt)
+[debug] Bloop wrote the configuration of project 'scala_gadt-test' to '/Users/vaishaag/scala_gadt/.bloop/scala_gadt-test.json'
+[success] Generated .bloop/scala_gadt-test.json
