@@ -67,6 +67,26 @@ object compiler {
 
     }
 
+  def pretty[As <: HList, A](
+      expr: Expr[As, A]
+  )(implicit show: AllShow[As]): String = {
+    expr match {
+      case CondE(expr, ifCond, thenCond, c1, c2) =>
+        val x = pretty(expr)
+        val y = pretty(ifCond)
+        val z = pretty(thenCond)
+        s"${x} ${y} ${z}"
+
+      case EqE(l, r, c1, c2, c3) =>
+        val y = pretty(l)
+        val z = pretty(r)
+        s"${y} ${z}"
+
+      case ValueE(a, constraint) =>
+        s"${show.show(Proxy[As], a)(constraint)}"
+    }
+  }
+
 }
 
 import HList.{::, _}
@@ -77,6 +97,39 @@ import HList.{::, _}
   * The only requirement is Any B can be converted to Int, as far as B is an
   * element of the As (in particular Proxy[As])
   */
+trait AllShow[As <: HList] {
+  def show[B](p: Proxy[As], b: B)(implicit ev: B Elem As): String
+}
+
+object AllShow {
+  implicit def instanceOfHList[A, As <: HList](implicit
+      ev: Show[A],
+      all: AllShow[As]
+  ): AllShow[A :: As] =
+    new AllShow[A :: As] {
+      override def show[B](p: Proxy[A :: As], b: B)(implicit
+          elem: Elem[B, A :: As]
+      ): String = elem.evidence match {
+        case evidence: Evidence[B, A :: As] =>
+          evidence match {
+            // head which was A is definitely B, a super safe casting
+            case Head() => ev.show(b.asInstanceOf[A])
+            case e @ Tail() =>
+              all.show(Proxy[As], b)(e.ev)
+          }
+
+      }
+    }
+
+  implicit val hlistShow: AllShow[HNil] =
+    new AllShow[HNil] {
+      override def show[B](p: Proxy[HNil], b: B)(implicit
+          ev: Elem[B, HNil]
+      ): String =
+        sys.error("hello")
+    }
+}
+
 trait AllIntBool[As <: HList] {
   def toInt[B](p: Proxy[As], b: B)(implicit ev: B Elem As): Int
 }
@@ -99,7 +152,6 @@ object AllIntBool {
           }
 
       }
-
     }
 
   implicit val hlist: AllIntBool[HNil] =
@@ -126,4 +178,5 @@ object ex3 extends App {
     )
 
   println(compiler.compileSM(value))
+  println(compiler.pretty(value))
 }
