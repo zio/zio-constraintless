@@ -15,8 +15,8 @@ _"The key principle that underpins our idea is that implementation- specific con
 
 The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", and this is already widely known and almost everyone lives with it. 
 
-Wherever the description exist (Initially or final) it is a known problem that descriptions shouild exist at some point in the code (at some level). However, this data should hold on to informations as constraints with types unless compromising parametric polymorphism, which is used by compilers. 
+Wherever the description exist (Initially or finally) it is guaranteed that these descriptions (introspectable programs) exist at some point in the code (at some level). Furthermore, this data can easily turn out to be a Generalised ADTs (rather than a simple one) that are recursive. The implication is compiler has to traverse through the unknown types (unknown yet existing ==> existential). 
 
-The naive solution is parametrising your program(s) with specific constraint every now and then, but that isn't a scalable code due to modularity issues, which further result in the need for regression for every new capability added. 
+The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism. This naive approach is not a good idea and it imposes modularity issues. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
