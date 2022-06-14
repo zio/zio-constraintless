@@ -3,6 +3,12 @@ trait Show[A] {
 }
 
 object Show {
+  implicit def showA[A : Show]: Show[(A, A)] =
+    (a: (A, A)) => {
+      val showA = implicitly[Show[A]]
+      s"(${showA.show(a._1)}, ${showA.show(a._2)})"
+    }
+
   implicit val showDouble: Show[Double] =
     (a: Double) => a.toString
 

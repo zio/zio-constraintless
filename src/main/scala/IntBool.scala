@@ -3,6 +3,12 @@ trait IntBool[A] {
 }
 
 object IntBool {
+  implicit def tuple[A](implicit ev: IntBool[A]): IntBool[(A, A)] =
+    new IntBool[(A, A)] {
+      override def toInt(a: (A, A)): Int =
+        ev.toInt(a._1) + ev.toInt(a._2)
+    }
+
   implicit val evInt: IntBool[Int] =
     (a: Int) => a
 
