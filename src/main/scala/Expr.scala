@@ -22,6 +22,20 @@ case class EqE[As <: HList, A](
 object Expr {
   def valueE[A, As <: HList](a: A)(implicit e: A Elem As): Expr[As, A] =
     ValueE(a, e)
+
+  def condE[A, As <: HList](
+      l: Expr[As, Boolean],
+      exec1: Expr[As, A],
+      exec2: Expr[As, A]
+  )(implicit e: Elem[A, As], b: Elem[Boolean, As]): Expr[As, A] =
+    CondE(l, exec1, exec2, e, b)
+
+  def eqE[A, As <: HList](exec1: Expr[As, A], exec2: Expr[As, A])(implicit
+      e: Elem[A, As],
+      b: Elem[Boolean, As],
+      eq: Eq[A]
+  ): Expr[As, Boolean] =
+    EqE(exec1, exec2, eq, e, b)
 }
 
 trait Eq[A] {
@@ -78,8 +92,8 @@ object AllIntBool {
       ): Int = elem.evidence match {
         case evidence: Evidence[B, A :: As] =>
           evidence match {
-            // head which was A is definitely B
-            case Head() => ??? // ev.toInt(b.asInstanceOf[A])
+            // head which was A is definitely B, a super safe casting
+            case Head() => ev.toInt(b.asInstanceOf[A])
             case e @ Tail() =>
               all.toInt(Proxy[As], b)(e.ev)
           }
@@ -97,15 +111,19 @@ object AllIntBool {
     }
 }
 
-object ex3 {
+object ex3 extends App {
   import HList._
 
   // These types will act as the types that the entire program structure supports
-  type AllowedTypes = Int :: (Double :: HNil)
+  type AllowedTypes = Int :: (Double :: Boolean :: HNil)
 
   // Every tree is part of the allowed type
-  val value: Expr[AllowedTypes, Double] =
-    Expr.valueE(1.0)
+  val value =
+    Expr.condE[Double, AllowedTypes](
+      Expr.valueE(true),
+      Expr.valueE(1.0),
+      Expr.valueE(0.0)
+    )
 
-  compiler.compileSM(value)
+  println(compiler.compileSM(value))
 }
