@@ -16,15 +16,4 @@ object Paper {
 
   def compileSM[A](expr: Expr[A]): String = ???
 
-  trait Evidence[A, As <: HList]
-
-  import HList._
-
-  case class Head[A, As <: HList]() extends Evidence[A, A :: As]
-
-  case class Tail[A, B, As <: HList]() extends Evidence[A, B :: As]
-
-  trait Elem[A, As <: HList] {
-    def evidence: Evidence[A, As]
-  }
 }

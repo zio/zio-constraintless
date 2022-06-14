@@ -6922,3 +6922,71 @@ final case ojbect HNil extends HList {
 2022.06.14 10:25:39 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
 2022.06.14 10:25:45 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
 2022.06.14 10:25:55 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:29:45 ERROR scalafmt: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala:32: error: [dialect scala213] identifier expected but ] found
+      implicit def elemA: Elem[A, ]
+                                  ^
+2022.06.14 10:29:45 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:29:56 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:06 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:09 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:19 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:22 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:31 ERROR scalafmt: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala:18: error: [dialect scala213] } expected but end of file found
+
+^
+2022.06.14 10:30:31 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:39 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala
+2022.06.14 10:30:45 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:30:47 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:31:02 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:31:08 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:31:17 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:31:53 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:31:57 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:32:05 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:32:07 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:33:04 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:33:06 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:33:11 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:33:47 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+2022.06.14 10:34:07 WARN  no build target for: /Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Elem.scala
+Jun. 14, 2022 10:45:13 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint fallbackResponseError
+SEVERE: Internal error: java.lang.reflect.InvocationTargetException
+java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:67)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.request(GenericEndpoint.java:120)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.handleRequest(RemoteEndpoint.java:261)
+	at org.eclipse.lsp4j.jsonrpc.RemoteEndpoint.consume(RemoteEndpoint.java:190)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.handleMessage(StreamMessageProducer.java:194)
+	at org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer.listen(StreamMessageProducer.java:94)
+	at org.eclipse.lsp4j.jsonrpc.json.ConcurrentMessageProcessor.run(ConcurrentMessageProcessor.java:113)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: java.lang.reflect.InvocationTargetException
+	at jdk.internal.reflect.GeneratedMethodAccessor9.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint.lambda$null$0(GenericEndpoint.java:65)
+	... 11 more
+Caused by: java.lang.IllegalArgumentException: 34 is not a valid line number, allowed [0..23]
+	at scala.meta.internal.inputs.InternalInput.lineToOffset(InternalInput.scala:37)
+	at scala.meta.internal.inputs.InternalInput.lineToOffset$(InternalInput.scala:32)
+	at scala.meta.inputs.Input$VirtualFile.lineToOffset(Input.scala:80)
+	at scala.meta.inputs.Position$Range$.apply(Position.scala:59)
+	at scala.meta.internal.mtags.MtagsEnrichments$XtensionPositionLspInverse.toMeta(MtagsEnrichments.scala:179)
+	at scala.meta.internal.parsing.Trees.$anonfun$findLastEnclosingAt$4(Trees.scala:76)
+	at scala.Option.flatMap(Option.scala:283)
+	at scala.meta.internal.parsing.Trees.findLastEnclosingAt(Trees.scala:75)
+	at scala.meta.internal.metals.codeactions.PatternMatchRefactor.contribute(PatternMatchRefactor.scala:96)
+	at scala.meta.internal.metals.CodeActionProvider$$anonfun$1.applyOrElse(CodeActionProvider.scala:64)
+	at scala.meta.internal.metals.CodeActionProvider$$anonfun$1.applyOrElse(CodeActionProvider.scala:63)
+	at scala.collection.immutable.List.collect(List.scala:275)
+	at scala.meta.internal.metals.CodeActionProvider.codeActions(CodeActionProvider.scala:63)
+	at scala.meta.internal.metals.MetalsLanguageServer.$anonfun$codeAction$1(MetalsLanguageServer.scala:1649)
+	at scala.meta.internal.metals.CancelTokens$.future(CancelTokens.scala:38)
+	at scala.meta.internal.metals.MetalsLanguageServer.codeAction(MetalsLanguageServer.scala:1648)
+	... 15 more
+
