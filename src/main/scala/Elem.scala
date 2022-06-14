@@ -4,7 +4,7 @@ import HList._
 
 final case class Head[A, As <: HList]() extends Evidence[A, A :: As]
 
-final case class Tail[A, B, As <: HList](implicit ev: Elem[A, As]) extends Evidence[A, B :: As]
+final case class Tail[A, B, As <: HList](ev: Elem[A, As]) extends Evidence[A, B :: As]
 
 trait Elem[A, As <: HList] {
   def evidence: Evidence[A, As]
@@ -20,7 +20,7 @@ object Elem {
   implicit def elemeB[A, B, As <: HList](implicit
       ev: Elem[A, As]
   ): Elem[A, B :: As] = new Elem[A, B :: As] {
-    override def evidence: Evidence[A, B :: As] = Tail[A, B, As]()
+    override def evidence: Evidence[A, B :: As] = Tail[A, B, As](ev)
   }
 }
 

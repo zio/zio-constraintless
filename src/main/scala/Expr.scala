@@ -114,7 +114,7 @@ object AllShow {
           evidence match {
             // head which was A is definitely B, a super safe casting
             case Head() => ev.show(b.asInstanceOf[A])
-            case e @ Tail() =>
+            case e @ Tail(_) =>
               all.show(Proxy[As], b)(e.ev)
           }
 
@@ -147,7 +147,7 @@ object AllIntBool {
           evidence match {
             // head which was A is definitely B, a super safe casting
             case Head() => ev.toInt(b.asInstanceOf[A])
-            case e @ Tail() =>
+            case e @ Tail(_) =>
               all.toInt(Proxy[As], b)(e.ev)
           }
 
