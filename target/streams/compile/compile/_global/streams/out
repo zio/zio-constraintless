@@ -1,4 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0m/Users/afsalthaj/Disney/cxe/scala_gadt/src/main/scala/Expr.scala:28:19: type arguments [A,As] do not conform to trait Evidence's type parameter bounds [A,As <: HList][0m
-[0m[[0m[31merror[0m] [0m[0m    def evidence: Evidence[A, As][0m
-[0m[[0m[31merror[0m] [0m[0m                  ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m
