@@ -24,35 +24,15 @@ trait Eq[A] {
   def eq(l: A, r: A): A
 }
 
-object compiler {
+object compiler extends Syntax {
 
-  case class Proxy[As](as: As)
-
-  trait IntBool[A] {
-    def toInt(a: A): Int
-  }
-
-  object IntBool {
-    implicit val evInt: IntBool[Int] =new IntBool[Int] {
-      override def toInt(a: Int): Int = a
-    }
-
-    implicit val evBool: IntBool[Boolean] = new IntBool[Boolean] {
-      override def toInt(a: Boolean): Int = ???
-    }
-  }
-  trait AllIntBool[As] {
-
-    def toInt[B](p: Proxy[As], b: B)(implicit ev: B Elem As): Int
-
-
-  }
-
-  def compileSM[As <: HList, A](expr: Expr[As, A])(implicit ev: AllIntBool[As]): String =
+  def compileSM[As <: HList, A](
+      expr: Expr[As, A]
+  )(implicit ev: AllIntBool[As]): String =
     expr match {
       case CondE(expr, ifCond, thenCond, c1, c2) =>
         s"if (${compileSM(expr)} then ${compileSM(ifCond)} else ${compileSM(thenCond)}} "
-      case EqE(l, r, c1, c2, c3) => s" ${compileSM(l)} Equals ${compileSM(r)}"
+     // case EqE(l, r, c1, c2, c3) => s" ${compileSM(l)} Equals ${compileSM(r)}"
 
       /** From paper:
         *
@@ -64,7 +44,36 @@ object compiler {
         *
         * """
         */
-      case ValueE(a, constraint) => ???
+      case ValueE(a, constraint) =>
+       s"${ev.toInt(Proxy[As], a)(constraint)}"
+
     }
 
+}
+
+import HList._
+
+/**
+ * All the type that comes arbitrarily in the tree has an instance
+ * of IntBool - AllIntBool
+ */
+trait AllIntBool[As <: HList] {
+  def toInt[B](p: Proxy[As], b: B)(implicit ev: B Elem As): Int
+}
+
+object AllIntBool {
+//  implicit def instanceOfHList[A, As <: HList](implicit
+//      A: IntBool[A],
+//      B: AllIntBool[As]
+//  ): AllIntBool[A :: As] = new AllIntBool[A :: As] {
+//    override def toInt[B](p: Proxy[A :: As], b: B)(implicit ev: Elem[B, A :: As]): Int = ???
+//
+//  }
+}
+
+trait Syntax {
+  implicit class AllIntBoolSyntax[As <: HList](p: Proxy[As]) {
+    def toInt_[B](b: B)(implicit ev: AllIntBool[As], ev2: B Elem As): Int =
+      ???
+  }
 }
