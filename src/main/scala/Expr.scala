@@ -44,9 +44,10 @@ trait Eq[A] {
 
 object compiler {
 
+  // Making use of `All` in paper rather than `AllIntBool`
   def compileSM[As <: HList, A](
       expr: Expr[As, A]
-  )(implicit ev: AllIntBool[As]): String =
+  )(implicit ev: All[IntBool, As]): String =
     expr match {
       case CondE(expr, ifCond, thenCond, c1, c2) =>
         s"if (${compileSM(expr)} then ${compileSM(ifCond)} else ${compileSM(thenCond)}} "
@@ -63,13 +64,14 @@ object compiler {
         * """
         */
       case ValueE(a, constraint) =>
-        s"${ev.toInt(Proxy[As], a)(constraint)}"
+        def showInt[B](b: B)(trap: All.Trap[IntBool, B]): String = s"${trap.ev.toInt(b)}"
+        s"${ev.withElem(Proxy[As])(showInt(a))(constraint)}"
 
     }
 
   def pretty[As <: HList, A](
       expr: Expr[As, A]
-  )(implicit show: AllShow[As]): String = {
+  )(implicit show: All[Show, As]): String = {
     expr match {
       case CondE(expr, ifCond, thenCond, c1, c2) =>
         val x = pretty(expr)
@@ -83,84 +85,12 @@ object compiler {
         s"${y} ${z}"
 
       case ValueE(a, constraint) =>
-        s"${show.show(Proxy[As], a)(constraint)}"
+        def showInt[B](b: B)(trap: All.Trap[Show, B]): String = s"${trap.ev.show(b)}"
+
+        s"${show.withElem(Proxy[As])(showInt(a))(constraint)}"
     }
   }
 
-}
-
-import HList.{::, _}
-
-/** All the type that comes arbitrarily in the tree has an instance of IntBool -
-  * AllIntBool.
-  *
-  * The only requirement is Any B can be converted to Int, as far as B is an
-  * element of the As (in particular Proxy[As])
-  */
-trait AllShow[As <: HList] {
-  def show[B](p: Proxy[As], b: B)(implicit ev: B Elem As): String
-}
-
-object AllShow {
-  implicit def instanceOfHList[A, As <: HList](implicit
-      ev: Show[A],
-      all: AllShow[As]
-  ): AllShow[A :: As] =
-    new AllShow[A :: As] {
-      override def show[B](p: Proxy[A :: As], b: B)(implicit
-          elem: Elem[B, A :: As]
-      ): String = elem.evidence match {
-        case evidence: Evidence[B, A :: As] =>
-          evidence match {
-            // head which was A is definitely B, a super safe casting
-            case Head() => ev.show(b.asInstanceOf[A])
-            case e @ Tail(_) =>
-              all.show(Proxy[As], b)(e.ev)
-          }
-
-      }
-    }
-
-  implicit val hlistShow: AllShow[HNil] =
-    new AllShow[HNil] {
-      override def show[B](p: Proxy[HNil], b: B)(implicit
-          ev: Elem[B, HNil]
-      ): String =
-        sys.error("hello")
-    }
-}
-
-trait AllIntBool[As <: HList] {
-  def toInt[B](p: Proxy[As], b: B)(implicit ev: B Elem As): Int
-}
-
-object AllIntBool {
-  implicit def instanceOfHList[A, As <: HList](implicit
-      ev: IntBool[A],
-      all: AllIntBool[As]
-  ): AllIntBool[A :: As] =
-    new AllIntBool[A :: As] {
-      override def toInt[B](p: Proxy[A :: As], b: B)(implicit
-          elem: Elem[B, A :: As]
-      ): Int = elem.evidence match {
-        case evidence: Evidence[B, A :: As] =>
-          evidence match {
-            // head which was A is definitely B, a super safe casting
-            case Head() => ev.toInt(b.asInstanceOf[A])
-            case e @ Tail(_) =>
-              all.toInt(Proxy[As], b)(e.ev)
-          }
-
-      }
-    }
-
-  implicit val hlist: AllIntBool[HNil] =
-    new AllIntBool[HNil] {
-      override def toInt[B](p: Proxy[HNil], b: B)(implicit
-          ev: Elem[B, HNil]
-      ): Int =
-        sys.error("hello")
-    }
 }
 
 object ex3 extends App {
@@ -170,13 +100,14 @@ object ex3 extends App {
   type AllowedTypes = Int :: (Double :: Boolean :: HNil)
 
   // Every tree is part of the allowed type
-  val value =
+  val value: Expr[AllowedTypes, Double] =
     Expr.condE[Double, AllowedTypes](
       Expr.valueE(true),
       Expr.valueE(1.0),
       Expr.valueE(0.0)
     )
 
+  import All._
   println(compiler.compileSM(value))
   println(compiler.pretty(value))
 }
