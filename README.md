@@ -2,7 +2,7 @@
 
 A discussion on http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf as Scala code
 
-**Parametrising the program with(out) constraints without compromising the modularity is the the problem this project tries to solve using this paper in Haskell.**
+**A Scala take on Haskell paper, on parametrising the program with logical constraints at every node, without compromising the modularity**
 
 
 An excerpt from the paper:
