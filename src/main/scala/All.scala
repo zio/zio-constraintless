@@ -24,7 +24,7 @@ object All {
       ev2.evidence match {
         case evidence: Evidence[B, A :: As] =>
           evidence match {
-            case Head()  => trap(Trap(c.asInstanceOf[C[B]]))
+            case Head()  => trap(Trap(c.asInstanceOf[C[B]])) // Coz we have compile time evidence that B is infact A
             case Tail(x) => ev.withElem(Proxy[As])(trap)(x)
           }
       }
