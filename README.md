@@ -24,10 +24,8 @@ The obvious implication of having to handle "unknown" is, the DSL should hold on
 
 It doesn't allow you to have a compiler with multiple constraints.
 
-With Hughe's scheme we have a Typeable interface where all expression nodes return `F[A]` where `F[_]` has an instance of `Typeable`. Note htat this `F[_]` needs to be different if the constraints are different. This means if a compiler needs multiple constraints, typechecking becomes almost impossible.
 
-
-A few excerpts from the paper:
+A few excerpts from the paper on why it doesn't work:
 
 ```scala
 class Typeable p a valueP :: a → p a
