@@ -1,19 +1,24 @@
 // http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
-object Paper {
+trait Expr[As <: HList, A]
 
-  trait Eq[A] {
-    def eq(l: A, r: A): A
-  }
+case class ValueE[As <: HList, A](a: A, constraint: A Elem As) extends Expr[As, A]
+case class CondE[As <: HList, A](
+    expr: Expr[As, Boolean],
+    ifCond: Expr[As, A],
+    thenCond: Expr[As, A],
+    c1: A Elem As,
+    c2: Boolean Elem As
+) extends Expr[As, A]
 
-  trait Expr[A]
+case class EqE[As <: HList, A](
+    l: Expr[As, A],
+    r: Expr[As, A],
+    c1: Eq[A],
+    c2: A Elem As,
+    c3: Boolean Elem As
+) extends Expr[As, Boolean]
 
-  case class ValueE[A](a: A) extends Expr[A]
-  case class CondE[A](expr: Expr[Boolean], ifCond: Expr[A], thenCond: Expr[A])
-      extends Expr[A]
-  case class EqE[A](l: Expr[A], r: Expr[A], constraint: Eq[A])
-      extends Expr[Boolean]
-
-  def compileSM[A](expr: Expr[A]): String = ???
-
+trait Eq[A] {
+  def eq(l: A, r: A): A
 }

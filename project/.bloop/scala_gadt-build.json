@@ -200,7 +200,7 @@
         "platform": {
             "name": "jvm",
             "config": {
-                "home": "/Users/afsalthaj/Library/Java/JavaVirtualMachines/corretto-11.0.12/Contents/Home",
+                "home": "/nix/store/im93k8bfs93xma2vi6qj3r2cyr4pv2l6-zulu14.28.21-ca-jdk14.0.1/zulu-14.jdk/Contents/Home",
                 "options": [
                     "-Duser.dir=/Users/afsalthaj/Disney/cxe/scala_gadt/project"
                 ]
