@@ -7,6 +7,10 @@ object IntBool {
     override def toInt(a: Int): Int = a
   }
 
+  implicit val evDouble: IntBool[Double] =new IntBool[Double] {
+    override def toInt(a: Double): Int = a.toInt
+  }
+
   implicit val evBool: IntBool[Boolean] = new IntBool[Boolean] {
     override def toInt(a: Boolean): Int = ???
   }
