@@ -69,7 +69,7 @@ trait AllIntBool[As <: HList] {
 
 object AllIntBool {
   implicit def instanceOfHList[A, As <: HList](implicit
-      ///ev: IntBool[A],
+      ev: IntBool[A],
       all: AllIntBool[As]
   ): AllIntBool[A :: As] =
     new AllIntBool[A :: As] {
@@ -79,7 +79,7 @@ object AllIntBool {
         case evidence: Evidence[B, A :: As] =>
           evidence match {
             // head which was A is definitely B
-            case Head() => ??? //ev.toInt(b.asInstanceOf[A])
+            case Head() => ??? // ev.toInt(b.asInstanceOf[A])
             case e @ Tail() =>
               all.toInt(Proxy[As], b)(e.ev)
           }
@@ -101,7 +101,7 @@ object ex3 {
   import HList._
 
   // These types will act as the types that the entire program structure supports
-  type AllowedTypes = String :: (Int :: (Double :: HNil))
+  type AllowedTypes = Int :: (Double :: HNil)
 
   // Every tree is part of the allowed type
   val value: Expr[AllowedTypes, Double] =
