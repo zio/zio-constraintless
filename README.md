@@ -1,7 +1,7 @@
 ## Exec Plan and interpretations in Real Life
 
 
-**A Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising the modularity**
+**A Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
 
 http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
