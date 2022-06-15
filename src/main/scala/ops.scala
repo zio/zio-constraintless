@@ -78,7 +78,12 @@ object queryplannercompiler {
                 .map({ c =>
                   (k, (b, c))
                 })
-                .getOrElse((k, (b, 0.asInstanceOf[c])))
+                .getOrElse(
+                  (
+                    k,
+                    (b, mathOp.withElem[c, c](Proxy[As])(_.ev.zero)(zip.elem2))
+                  )
+                )
             })
             .toMap
 
