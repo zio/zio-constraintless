@@ -1,4 +1,6 @@
-project/
+project/.bloop
+project/target/
+project/metals.sbt
 .bsp
 .bloop
 .metals
