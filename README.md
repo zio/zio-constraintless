@@ -1,7 +1,8 @@
-## Exec Plan and interpretations in Real Life
+## ConstraintLess
 
+Allows you to build programs as mere descriptions with maximum polymorphism and zero abstraction leakage.
 
-**A Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
+It is **a Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
 
 http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
