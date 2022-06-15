@@ -38,15 +38,15 @@ object queryplanner {
   import HList._
 
   // My IO is query that produces key and value
-  sealed trait DataSource[A] {
-    def map[B](f: A => B): DataSource[B] =
+  sealed trait Query[K, V] {
+    def map[B](f: V => B): Query[K, B] =
       DMap(this, f)
   }
 
-  case class Api[A]() extends DataSource[A]
-  case class DMap[A, B](self: DataSource[A], f: A => B) extends DataSource[B]
-
-  type Query[K, A] = DataSource[(K, A)]
+  case class Api[K, V](f: String => (K, V)) extends Query[K, V]
+  // DMap is the direct mapping over a query output
+  // while Ops.Map could be mapping over the result of multiple query operations
+  case class DMap[K, A, B](self: Query[K, A], f: A => B) extends Query[K, B]
 
   type ExecPlan[As <: HList, K, A] = Ops[As, Query[K, *], A]
 
@@ -66,12 +66,13 @@ object queryplannercompiler {
 
   // You can see the hidden information in this exec plan
   def run[As <: HList, K, A](
-      plan: ExecPlan[As, K, A]
+      plan: ExecPlan[As, K, A],
+      f: Query[K, *] ~> Map[K, *]
   )(implicit mathOp: All[MathOp, As]): IO[K, A] = {
     def loop[B](plan: ExecPlan[As, K, B]): IO[K, B] = {
       plan match {
         case pure: Pure[As, Query[K, *], B] =>
-          ??? // Here is the key problem that we are facing.
+          f(pure.fa) // Here is the key problem that we are facing.
 
         case zip: Zip[As, Query[K, *], b, c] =>
           val map1 = loop(zip.left)
@@ -135,10 +136,14 @@ object QueryPlannerSpec extends App {
   type PlannerTypes = Int :: (Int, Int) :: HNil
 
   val v1: ExecPlan[PlannerTypes, String, Int] =
-    ExecPlan.pure[PlannerTypes, String, Int](Api[(String, Int)]())
+    ExecPlan.pure[PlannerTypes, String, Int](
+      Api[String, Int](_ => ("US", 20))
+    )
 
   val v2: ExecPlan[PlannerTypes, String, Int] =
-    ExecPlan.pure[PlannerTypes, String, Int](Api[(String, Int)]())
+    ExecPlan.pure[PlannerTypes, String, Int](
+      Api[String, Int](_ => ("US", 10))
+    )
 
   def myPlan: ExecPlan[PlannerTypes, String, Int] =
     v1 / v2
@@ -152,9 +157,24 @@ object QueryPlannerSpec extends App {
   // in future rather than sticking on to a specific value
   // However this scenairo implies, any Query[K, A] => Map[K, A], and A can take any shape ==> f: Query[K, *] ~> Map[K, *]
   def zippedPlan_ : ExecPlan[PlannerTypes, String, (Int, Int)] =
-    ExecPlan.pure(Api[(String, (Int, Int))])
+    ExecPlan.pure(Api[String, (Int, Int)](str => ("US", (1, 1))))
 
-  val result = queryplannercompiler.run(zippedPlan)
+  def queryCompiler = new (Query[String, *] ~> Map[String, *]) {
+    override def apply[A](a: Query[String, A]): Map[String, A] =
+      a match {
+        case Api(f) =>
+          val response: String = ""
+          val kv = f(response)
+          Map(kv)
+
+        case dmap: DMap[String, a, b] =>
+          apply(dmap.self).map({ case (string, a) =>
+            (string, dmap.f(a))
+          })
+      }
+  }
+
+  val result = queryplannercompiler.run(zippedPlan, queryCompiler)
 
   println(result)
 }
