@@ -1,9 +1,9 @@
 ## Exec Plan and interpretations in Real Life
 
-A discussion on http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf as Scala code
 
-**Parametrising the program with(out) constraints without compromising the modularity is the the problem this project tries to solve using this paper in Haskell.**
+**A Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
 
+http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
 An excerpt from the paper:
 
@@ -11,16 +11,61 @@ An excerpt from the paper:
 _"The key principle that underpins our idea is that implementation- specific constraints should be imposed at the point of use of a data type, not at the point of definition, i.e. it embodies the established principle that an interface should be separated from its implementation(s)."_
 
 
-The typelevel proofs **may** be readable only when readers try themselves. But it is mostly write once and forget.
-
-
-
 ## Context
 
 The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", and this is already widely known and almost everyone lives with it. 
 
-Wherever the description exist (Initially or final) it is a known problem that descriptions shouild exist at some point in the code (at some level). However, this data should hold on to informations as constraints with types unless compromising parametric polymorphism, which is used by compilers. 
+Wherever the description exist (Initially or finally) it is guaranteed that these descriptions (introspectable programs) exist at some point in the code (at some level). Furthermore, this data can easily turn out to be a Generalised ADTs (rather than a simple one) that are recursive. The implication is compiler has to traverse through the unknown types (unknown yet existing ==> existential). 
 
-The naive solution is parametrising your program(s) with specific constraint every now and then, but that isn't a scalable code due to modularity issues, which further result in the need for regression for every new capability added. 
+The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism. This naive approach is not a good idea and it imposes modularity issues. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
+## Why not the scheme of Hughes?
+
+It doesn't allow you to have a compiler with multiple constraints.
+
+
+A few excerpts from the paper on why it doesn't work:
+
+```scala
+class Typeable p a valueP :: a → p a
+```
+
+```scala
+newtype SM a = SM {fromSM :: Int}
+
+instance IntBool a ⇒ Typeable SM a where
+  valueP = SM · toInt
+```
+
+```scala
+
+newtype Pretty a = Pretty {fromPretty :: String}
+
+instance Show a ⇒ Typeable Pretty a where valueP = Pretty · show
+
+```
+
+```scala
+data Exp p a where
+ValueE::Typeable p a ⇒ a → Exp p a
+
+CondE ::Expp Bool→Exp p a → Exp p a → Exp p a 
+
+EqE :: Eq a ⇒ Exp p a → Exp p a → Exp p Bool
+```
+
+
+```scala
+pretty :: Exp Pretty a → String // works
+compileSM :: Exp SM a → String // works
+
+
+```
+
+ However, now suppose that we wish to apply the two functions to the same expression, as in:
+
+```scala
+f :: Exp p a → . . .
+f e = ...(compileSM e)...(pretty e)..
+```
