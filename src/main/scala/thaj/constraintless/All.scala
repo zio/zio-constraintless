@@ -1,5 +1,7 @@
 // From paper 3. Higher-order constraints
 
+package thaj.constraintless
+
 trait All[C[_], As <: HList] {
   def withElem[B, D](as: Proxy[As])(trap: All.Trap[C, B] => D)(implicit
       ev: B Elem As
@@ -24,7 +26,10 @@ object All {
       ev2.evidence match {
         case evidence: Evidence[B, A :: As] =>
           evidence match {
-            case Head()  => trap(Trap(c.asInstanceOf[C[B]])) // Coz we have compile time evidence that B is infact A
+            case Head() =>
+              trap(
+                Trap(c.asInstanceOf[C[B]])
+              ) // Coz we have compile time evidence that B is infact A
             case Tail(x) => ev.withElem(Proxy[As])(trap)(x)
           }
       }
@@ -32,8 +37,8 @@ object All {
 
   // The definition is slightly from what mentioned in the paper where it traverses hlist
   implicit def allHList2[C[_]]: All[C, HNil] = new All[C, HNil] {
-    override def withElem[B, D](as: Proxy[HNil])(trap: Trap[C, B] => D)(
-        implicit ev: Elem[B, HNil]
+    override def withElem[B, D](as: Proxy[HNil])(trap: Trap[C, B] => D)(implicit
+        ev: Elem[B, HNil]
     ): D =
       sys.error("hmmm")
   }

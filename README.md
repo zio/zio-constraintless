@@ -69,3 +69,5 @@ compileSM :: Exp SM a → String // works
 f :: Exp p a → . . .
 f e = ...(compileSM e)...(pretty e)..
 ```
+
+and that's impossible

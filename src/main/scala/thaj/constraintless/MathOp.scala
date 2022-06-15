@@ -1,3 +1,5 @@
+package thaj.constraintless
+
 trait MathOp[A] {
   def ratio(l: A, r: A): A
   def zero: A

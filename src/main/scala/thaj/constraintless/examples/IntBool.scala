@@ -1,3 +1,5 @@
+package thaj.constraintless.examples
+
 trait IntBool[A] {
   def toInt(a: A): Int
 }

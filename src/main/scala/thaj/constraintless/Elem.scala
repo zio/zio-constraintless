@@ -1,3 +1,5 @@
+package thaj.constraintless
+
 import HList._
 
 trait Elem[A, As <: HList] {

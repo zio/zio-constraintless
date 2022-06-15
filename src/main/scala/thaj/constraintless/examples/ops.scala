@@ -1,5 +1,8 @@
+package thaj.constraints.examples
+
 import Ops.Pure
 import Ops.Zip
+import thaj.constraintless._
 
 /** Ops is an exec planner whose leaf node is a higher kinded type
   */
@@ -63,6 +66,15 @@ object queryplannercompiler {
   import queryplanner._
 
   type IO[K, A] = Map[K, A]
+
+  type InnerResult[As <: HList, K, A] =
+    Either[ExecSummary[As, K, A], Query[K, A]]
+
+  // With new Ops the exec summary will be as follows
+  final case class ExecSummary[As <: HList, K, A](
+      value: IO[K, A],
+      detail: Ops[As, InnerResult[As, K, *], A]
+  )
 
   // You can see the hidden information in this exec plan
   def run[As <: HList, K, A](

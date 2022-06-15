@@ -1,9 +1,11 @@
+package thaj.constraintless.examples
+
 trait Show[A] {
   def show(a: A): String
 }
 
 object Show {
-  implicit def showA[A : Show]: Show[(A, A)] =
+  implicit def showA[A: Show]: Show[(A, A)] =
     (a: (A, A)) => {
       val showA = implicitly[Show[A]]
       s"(${showA.show(a._1)}, ${showA.show(a._2)})"

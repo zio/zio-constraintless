@@ -1,4 +1,7 @@
 // http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
+package thaj.constraintless.examples
+
+import thaj.constraintless._
 
 trait Expr[As <: HList, A] {
   def /(
@@ -168,7 +171,7 @@ object compiler {
 
 }
 
-object ex3 extends App {
+object ExprExample extends App {
   import HList._
 
   // These types will act as the types that the entire program structure supports
