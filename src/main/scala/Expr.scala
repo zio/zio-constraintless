@@ -13,7 +13,7 @@ case class ProdE[As <: HList, A, B](
     a: Expr[As, A],
     b: Expr[As, B],
     c1: A Elem As,
-    c2: B Elem As,
+    c2: B Elem As
 ) extends Expr[As, (A, B)]
 
 case class CondE[As <: HList, A](
@@ -45,7 +45,7 @@ object Expr {
 
   def prodE[A, B, C, As <: HList](a: Expr[As, A], b: Expr[As, B])(implicit
       e: A Elem As,
-      f: B Elem As,
+      f: B Elem As
   ): Expr[As, (A, B)] =
     ProdE(a, b, e, f)
 
@@ -183,7 +183,10 @@ object ex3 extends App {
     )
 
   val value2: Expr[AllowedTypes, (Double, Double)] =
-    Expr.prodE(Expr.valueE[Double, AllowedTypes](1.0), Expr.valueE[Double, AllowedTypes](2.0))
+    Expr.prodE(
+      Expr.valueE[Double, AllowedTypes](1.0),
+      Expr.valueE[Double, AllowedTypes](2.0)
+    )
 
   val value3 = value2 / value2
 
