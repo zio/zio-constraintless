@@ -38,9 +38,13 @@ object queryplanner {
   import HList._
 
   // My IO is query that produces key and value
-  sealed trait DataSource[A]
+  sealed trait DataSource[A] {
+    def map[B](f: A => B): DataSource[B] =
+      DMap(this, f)
+  }
 
   case class Api[A]() extends DataSource[A]
+  case class DMap[A, B](self: DataSource[A], f: A => B) extends DataSource[B]
 
   type Query[K, A] = DataSource[(K, A)]
 
@@ -66,7 +70,8 @@ object queryplannercompiler {
   )(implicit mathOp: All[MathOp, As]): IO[K, A] = {
     def loop[B](plan: ExecPlan[As, K, B]): IO[K, B] = {
       plan match {
-        case pure: Pure[As, Query[K, *], B] => ???
+        case pure: Pure[As, Query[K, *], B] =>
+          ??? // Here is the key problem that we are facing.
 
         case zip: Zip[As, Query[K, *], b, c] =>
           val map1 = loop(zip.left)
