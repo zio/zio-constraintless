@@ -1,6 +1,6 @@
 ## ConstraintLess
 
-Allows you to build programs as mere descriptions with maximum polymorphism and zero abstraction leakage.
+Allows you to build programs as mere descriptions with maximum polymorphism, zero abstraction leakage, and zero casting.
 
 It is **a Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
 
