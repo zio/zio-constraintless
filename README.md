@@ -1,7 +1,8 @@
-## Exec Plan and interpretations in Real Life
+## ConstraintLess
 
+Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero usnafe/safe casting.
 
-**A Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
+It is **a Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
 
 http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
@@ -17,7 +18,9 @@ The key to many inspectable programs such as an execution planner, a configurati
 
 Wherever the description exist (Initially or finally) it is guaranteed that these descriptions (introspectable programs) exist at some point in the code (at some level). Furthermore, this data can easily turn out to be a Generalised ADTs (rather than a simple one) that are recursive. The implication is compiler has to traverse through the unknown types (unknown yet existing ==> existential). 
 
-The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism. This naive approach is not a good idea and it imposes modularity issues. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
+The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism, or fall back to relying on our brain and cast it explicitly (asInstanceOf).
+
+This naive approach is not a good idea and it imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
 ## Why not the scheme of Hughes?
