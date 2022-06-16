@@ -6,6 +6,8 @@ addCompilerPlugin(
   "org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full
 )
 
+Global / gpgCommand := (baseDirectory.value / "gpg.sh").getAbsolutePath
+
 inThisBuild(
   List(
     organization := "com.thaj.constraintless",
