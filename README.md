@@ -5,7 +5,7 @@
 | [![Release Artifacts][Badge-SonatypeReleases]][Link-SonatypeReleases] |[![Badge-Scaladex-page]][Link-Scaladex-page] |[![Badge-Twitter]][Link-Twitter] |
 
 
-Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero usnafe/safe casting.
+Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero casting.
 
 It is **a Scala take on the following paper in Haskell, on parametrising the program with logical constraints at every node, without compromising modularity**
 
