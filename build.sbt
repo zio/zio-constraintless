@@ -2,8 +2,16 @@ name := "constraintless"
 
 version := "0.0.1"
 
-addCompilerPlugin(
-  "org.typelevel" % "kind-projector" % "0.13.2" cross CrossVersion.full
+crossScalaVersions := List("2.12.16", "2.13.8")
+
+libraryDependencies ++= (
+  if (scalaVersion.value.startsWith("3")) Seq()
+  else
+    Seq(
+      compilerPlugin(
+        "org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full
+      )
+    )
 )
 
 inThisBuild(
