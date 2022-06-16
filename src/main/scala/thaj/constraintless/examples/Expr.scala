@@ -93,7 +93,7 @@ object compiler {
             def showInt[B](b: B)(trap: All.Trap[IntBool, B]): Int =
               trap.ev.toInt(b)
 
-            ev.withElem(Proxy[As])(showInt(aa))(c) / ev.withElem(Proxy[As])(
+            ev.withElem(Proxy[As]())(showInt(aa))(c) / ev.withElem(Proxy[As]())(
               showInt(bb)
             )(c)
           })
@@ -132,7 +132,7 @@ object compiler {
       case ValueE(a, constraint) =>
         def showInt[B](b: B)(trap: All.Trap[IntBool, B]): String =
           s"${trap.ev.toInt(b)}"
-        s"${ev.withElem(Proxy[As])(showInt(a))(constraint)}"
+        s"${ev.withElem(Proxy[As]())(showInt(a))(constraint)}"
 
     }
 
@@ -165,7 +165,7 @@ object compiler {
         def showInt[B](b: B)(trap: All.Trap[Show, B]): String =
           s"${trap.ev.show(b)}"
 
-        s"${show.withElem(Proxy[As])(showInt(a))(constraint)}"
+        s"${show.withElem(Proxy[As]())(showInt(a))(constraint)}"
     }
   }
 

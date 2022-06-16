@@ -1,8 +1,5 @@
-package thaj.constraints.examples
-
 import Ops.Pure
 import Ops.Zip
-import thaj.constraintless._
 
 /** Ops is an exec planner whose leaf node is a higher kinded type
   */
@@ -99,10 +96,7 @@ object queryplannercompiler {
                 .getOrElse(
                   (
                     k,
-                    (
-                      b,
-                      mathOp.withElem[c, c](Proxy[As]())(_.ev.zero)(zip.elem2)
-                    )
+                    (b, mathOp.withElem[c, c](Proxy[As])(_.ev.zero)(zip.elem2))
                   )
                 )
             })
@@ -121,7 +115,7 @@ object queryplannercompiler {
               .map({ b2 =>
                 (
                   k,
-                  mathOp.withElem[B, B](Proxy[As]())(trap =>
+                  mathOp.withElem[B, B](Proxy[As])(trap =>
                     trap.ev.ratio(b, b2)
                   )(ratio.elem1)
                 )
@@ -129,7 +123,7 @@ object queryplannercompiler {
               .getOrElse(
                 (
                   k,
-                  mathOp.withElem[B, B](Proxy[As]())(trap => trap.ev.zero)(
+                  mathOp.withElem[B, B](Proxy[As])(trap => trap.ev.zero)(
                     ratio.elem1
                   )
                 )
@@ -170,7 +164,7 @@ object QueryPlannerSpec extends App {
   // This implies your query implementor need to know about how to get a (k, (a, a)) given a request
   // Ideally this make sense, because that leads to a scalable code base, where our values from data-source are bound to change
   // in future rather than sticking on to a specific value
-  // However this scenairo implies, any Query[K, A] => Map[K, A], and A can take any shape ==> f: Query[K, _] ~> Map[K, _]
+  // However this scenairo implies, any Query[K, A] => Map[K, A], and A can take any shape ==> f: Query[K, *] ~> Map[K, *]
   def zippedPlan_ : ExecPlan[PlannerTypes, String, (Int, Int)] =
     ExecPlan.pure(Api[String, (Int, Int)](str => ("US", (1, 1))))
 

@@ -30,7 +30,7 @@ object All {
               trap(
                 Trap(c.asInstanceOf[C[B]])
               ) // Coz we have compile time evidence that B is infact A
-            case Tail(x) => ev.withElem(Proxy[As])(trap)(x)
+            case Tail(x) => ev.withElem(Proxy[As]())(trap)(x)
           }
       }
   }
