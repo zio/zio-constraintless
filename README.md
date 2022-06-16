@@ -7,7 +7,7 @@
 
 Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero usnafe/safe casting.
 
-It is **a Scala take on below Haskell paper, on parametrising the program with logical constraints at every node, without compromising modularity**
+It is **a Scala take on the following paper in Haskell, on parametrising the program with logical constraints at every node, without compromising modularity**
 
 http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
@@ -21,11 +21,11 @@ _"The key principle that underpins our idea is that implementation- specific con
 
 The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", but this idea comes with limitations.
 
-This description (or data) can easily turn out to be a Generalised ADTs (rather than a simple ADTs) that can also be recursive. The implication is that, compiler has to traverse through the unknown types (existential) and for the compiler to do any advanced/useful stuff with it, it needs to know more about these types.
+This description (or data) can easily turn out to be a Generalised ADTs (rather than a simple ADTs) that can also be recursive, such that compiler has to traverse through the unknown types (existential) and for the compiler to do any advanced/useful stuff with it, it needs to know more about these types.
 
-The obvious implication of having to handle "unknown" is that, the data should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism, or fall back to relying on our brain and cast it explicitly (asInstanceOf).
+The obvious implication of having to handle "unknown" is that, the data should hold on to informations as constraints (that are relevant to implementation) on types at the definition site. A possible solution is to compromise on parametric polymorphism, or fall back to relying unsafe/safe (relative) casting (asInstanceOf).
 
-However, such a naive approach imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
+This naive approach imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
 ## Why not the scheme of Hughes?
