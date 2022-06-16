@@ -28,7 +28,7 @@ The obvious implication of having to handle "unknown" is that, the data should h
 This naive approach imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
-## Why not the scheme of Hughes?
+## Why not the Hughes schema?
 
 It doesn't allow you to have a compiler with multiple constraints.
 
