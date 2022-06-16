@@ -21,7 +21,7 @@ _"The key principle that underpins our idea is that implementation- specific con
 
 The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", but this idea comes with limitations.
 
-This description (or data) can easily turn out to be a Generalised ADTs (rather than a simple ADTs) that can also be recursive, such that compiler has to traverse through the unknown types (existential) and for the compiler to do any advanced/useful stuff with it, it needs to know more about these types.
+This description (or data) can easily turn out to be a Generalised ADT that can be recursive, such that compiler has to traverse through the unknown types (existential) and for the compiler to do any advanced/useful stuff with it, it needs to know more about these types.
 
 The obvious implication of having to handle "unknown" is that, the data should hold on to informations as constraints (that are relevant to implementation) on types at the definition site. A possible solution is to compromise on parametric polymorphism, or fall back to relying unsafe/safe (relative) casting (asInstanceOf).
 
