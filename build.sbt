@@ -8,7 +8,7 @@ addCompilerPlugin(
 
 inThisBuild(
   List(
-    organization := "thaj.constraintless",
+    organization := "io.github.afsalthaj",
     homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
     licenses := List(
       "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
