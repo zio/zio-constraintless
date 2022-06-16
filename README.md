@@ -19,13 +19,13 @@ _"The key principle that underpins our idea is that implementation- specific con
 
 ## Context
 
-The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", and this is already widely known and almost everyone lives with it. 
+The key to many inspectable programs such as an execution planner, a configuration DSL etc is the basic concept of "programs as descriptions", but this idea comes with limitations.
 
-Wherever the description exist (Initially or finally) it is guaranteed that these descriptions (introspectable programs) exist at some point in the code (at some level). Furthermore, this data can easily turn out to be a Generalised ADTs (rather than a simple one) that are recursive. The implication is compiler has to traverse through the unknown types (unknown yet existing ==> existential). 
+This description (or data) can easily turn out to be a Generalised ADTs (rather than a simple ADTs) that can also be recursive. The implication is that, compiler has to traverse through the unknown types (existential) and for the compiler to do any advanced/useful stuff with it, it needs to know more about these types.
 
-The obvious implication of having to handle "unknown" is, the DSL should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism, or fall back to relying on our brain and cast it explicitly (asInstanceOf).
+The obvious implication of having to handle "unknown" is that, the data should hold on to informations as constraints (that are relevant to implementation) on types at the definition site, unless we compromise on parametric polymorphism, or fall back to relying on our brain and cast it explicitly (asInstanceOf).
 
-This naive approach is not a good idea and it imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
+However, such a naive approach imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
 
 ## Why not the scheme of Hughes?
