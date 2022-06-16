@@ -4,13 +4,10 @@ version := "0.1.3"
 
 crossScalaVersions := List("2.12.16", "2.13.8", "3.1.2")
 
-ThisBuild / scalacOptions ++= (
-  if (scalaVersion.value.startsWith("3")) Seq()
-  else
-    Seq(
-      "-P:kind-projector:underscore-placeholders"
-    )
-)
+scalacOptions ++=
+  (if (scalaVersion.value.startsWith("3"))
+     Seq("-Ykind-projector")
+   else Seq())
 
 libraryDependencies ++= (
   if (scalaVersion.value.startsWith("3")) Seq()
