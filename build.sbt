@@ -1,6 +1,6 @@
 name := "constraintless"
 
-version := "0.0.1"
+version := "0.1.3"
 
 crossScalaVersions := List("2.12.16", "2.13.8")
 
