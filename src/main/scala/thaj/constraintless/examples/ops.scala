@@ -1,4 +1,4 @@
-package thaj.constraints.examples
+package thaj.constraintless.examples
 
 import Ops.Pure
 import Ops.Zip
