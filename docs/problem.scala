@@ -65,5 +65,6 @@ object MakeThisWork extends App {
   run(addZipped) // make it compile
   run(added)
   run(zipAdded)
+  run(added.zip(added).zip(added).zip(added))
   
 }
