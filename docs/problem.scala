@@ -51,5 +51,11 @@ object MakeThisWork extends App {
   val add: ((Int, Int), (Int, Int)) => (Int, Int) =
     (a, b) => (a._1 + b._1, (a._2 + b._2))
 
-  println(run(zippedExpr)(add))
+  println(run(zippedExpr)(add)) // doesn't work
+
+
+  val zipped = int(1).zip(int(2))
+  val addZipped  = zipped.plus(zipped)
+
+  run(addZipped)(add) // does work
 }
