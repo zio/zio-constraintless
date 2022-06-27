@@ -1,4 +1,5 @@
 // Make this run without compile time or runtime exceptions !
+// Needn't use the library constraintless 
 object MakeThisWork extends App {
 
   sealed trait Expr[A] {
