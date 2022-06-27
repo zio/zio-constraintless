@@ -48,16 +48,20 @@ object MakeThisWork extends App {
   val zipAdded: Expr[(Int, Int)] =
     addExpr.zip(addExpr)
 
+  // Make this work
   println(run(zipAdded)(add)) // doesn't work
 
+
+  // How does the following work?
 
   val zipped = int(1).zip(int(2))
   val addZipped  = zipped.plus(zipped)
 
   run(addZipped)(add) // does work
   
-  // Another proble: 
+  // Another problem: 
   // Can you try and avoid having to summon manually how to add various tuples and still work with run method.
   // i.e, I should be able to simply do `run(addZipped)` instead of `run(addZipped)(add)`
+  run(addZipped) // make it compile
   
 }
