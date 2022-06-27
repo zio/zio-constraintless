@@ -1,4 +1,4 @@
-// Make this run without compile time or runtime exceptions !
+// Make this run without compile time errors or runtime exceptions !
 // without using the library constraintless 
 object MakeThisWork extends App {
 
