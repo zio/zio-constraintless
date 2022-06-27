@@ -20,14 +20,6 @@ object MakeThisWork extends App {
   def string(value: String): Expr[String] =
     StringExpr(value)
 
-  val addExpr: Expr[Int] =
-    int(1).plus(int(2))
-
-  val zippedExpr: Expr[(Int, Int)] =
-    addExpr.zip(addExpr)
-
-  // A =:= (a, b)
-
   def run[A](expr: Expr[A])(f: (A, A) => A): A = {
     expr match {
       case IntExpr(value)    => value
@@ -35,8 +27,6 @@ object MakeThisWork extends App {
       case Sum(left, right) =>
         val left_ = run(left)(f)
         val right_ = run(right)(f)
-        println(left_)
-        println(right_)
 
         f(left_, right_)
 
@@ -50,8 +40,14 @@ object MakeThisWork extends App {
 
   val add: ((Int, Int), (Int, Int)) => (Int, Int) =
     (a, b) => (a._1 + b._1, (a._2 + b._2))
+  
+  val added: Expr[Int] =
+    int(1).plus(int(2))
 
-  println(run(zippedExpr)(add)) // doesn't work
+  val zipAdded: Expr[(Int, Int)] =
+    addExpr.zip(addExpr)
+
+  println(run(zipAdded)(add)) // doesn't work
 
 
   val zipped = int(1).zip(int(2))
