@@ -46,7 +46,7 @@ object MakeThisWork extends App {
     int(1).plus(int(2))
 
   val zipAdded: Expr[(Int, Int)] =
-    addExpr.zip(addExpr)
+    added.zip(added)
 
   // Make this work
   println(run(zipAdded)(add)) // doesn't work
