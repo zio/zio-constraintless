@@ -55,4 +55,9 @@ object MakeThisWork extends App {
   val addZipped  = zipped.plus(zipped)
 
   run(addZipped)(add) // does work
+  
+  // Another proble: 
+  // Can you try and avoid having to summon manually how to add various tuples and still work with run method.
+  // i.e, I should be able to simply do `run(addZipped)` instead of `run(addZipped)(add)`
+  
 }
