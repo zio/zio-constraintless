@@ -63,5 +63,7 @@ object MakeThisWork extends App {
   // Can you try and avoid having to summon manually how to add various tuples and still work with run method.
   // i.e, I should be able to simply do `run(addZipped)` instead of `run(addZipped)(add)`
   run(addZipped) // make it compile
+  run(added)
+  run(zipAdded)
   
 }
