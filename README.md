@@ -5,6 +5,7 @@
 | [![Release Artifacts][Badge-SonatypeReleases]][Link-SonatypeReleases] |[![Badge-Scaladex-page]][Link-Scaladex-page] |[![Badge-Twitter]][Link-Twitter] |
 
 
+
 Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero casting.
 
 It is **a Scala take on the following paper in Haskell, on parametrising the program with logical constraints at every node, without compromising modularity**
@@ -16,6 +17,17 @@ An excerpt from the paper:
 
 _"The key principle that underpins our idea is that implementation- specific constraints should be imposed at the point of use of a data type, not at the point of definition, i.e. it embodies the established principle that an interface should be separated from its implementation(s)."_
 
+
+## Quick Start
+
+Example: https://github.com/afsalthaj/constraintless/blob/master/src/main/scala/thaj/constraintless/examples/Expr.scala
+
+
+ ```scala
+
+libraryDependencies ++= Seq("io.github.afsalthaj" %% "constraintless" % "0.1.4")
+
+```
 
 ## Context
 
@@ -84,6 +96,6 @@ and that's impossible
 [Badge-SonatypeReleases]: https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.afsalthaj/constraintless_2.12.svg "Sonatype Releases"
 [Badge-Twitter]: https://img.shields.io/twitter/follow/zioscala.svg?style=plastic&label=follow&logo=twitter
 
-[Link-Scaladex-page]: https://index.scala-lang.org/zio/zio-config/zio-config "Scaladex"
+[Link-Scaladex-page]: https://index.scala-lang.org/afsalthaj/constraintless "Scaladex"
 [Link-SonatypeReleases]: https://oss.sonatype.org/content/repositories/releases/io/github/afsalthaj/constraintless_2.12/ "Sonatype Releases"
 [Link-Twitter]: https://twitter.com/afsalt2
