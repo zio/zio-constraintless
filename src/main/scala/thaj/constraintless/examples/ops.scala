@@ -1,4 +1,4 @@
-package thaj.constraints.examples
+package thaj.constraintless.examples
 
 import Ops.Pure
 import Ops.Zip
@@ -101,7 +101,7 @@ object queryplannercompiler {
                     k,
                     (
                       b,
-                      mathOp.withElem[c, c](Proxy[As]())(_.ev.zero)(zip.elem2)
+                      mathOp.withElem[c, c](_.ev.zero)(zip.elem2)
                     )
                   )
                 )
@@ -121,15 +121,14 @@ object queryplannercompiler {
               .map({ b2 =>
                 (
                   k,
-                  mathOp.withElem[B, B](Proxy[As]())(trap =>
-                    trap.ev.ratio(b, b2)
-                  )(ratio.elem1)
+                  mathOp
+                    .withElem[B, B](trap => trap.ev.ratio(b, b2))(ratio.elem1)
                 )
               })
               .getOrElse(
                 (
                   k,
-                  mathOp.withElem[B, B](Proxy[As]())(trap => trap.ev.zero)(
+                  mathOp.withElem[B, B](trap => trap.ev.zero)(
                     ratio.elem1
                   )
                 )
