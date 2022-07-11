@@ -3,7 +3,8 @@
 package thaj.constraintless
 
 trait All[C[_], As <: HList] {
-  def withElem[B, D](trap: All.Trap[C, B] => D)(implicit
+  // trap is name inspired from the paper trapping the relationship between C[_] and B
+  def withElem[B, D](trap: C[B] => D)(implicit
       ev: B Elem As
   ): D
 }
@@ -11,24 +12,19 @@ trait All[C[_], As <: HList] {
 object All {
   import HList._
 
-  /** """ We transform the constraint c b into a data type which ‘traps’ the
-    * relationship between c and b: """
-    */
-  final case class Trap[C[_], B](ev: C[B])
-
   implicit def allHList[C[_], A, As <: HList](implicit
       c: C[A],
       ev: All[C, As]
   ): All[C, A :: As] = new All[C, A :: As] {
     override def withElem[B, D](
-        trap: Trap[C, B] => D
+        trap: C[B] => D
     )(implicit ev2: Elem[B, A :: As]): D =
       ev2.evidence match {
         case evidence: Evidence[B, A :: As] =>
           evidence match {
             case Head() =>
               trap(
-                Trap(c.asInstanceOf[C[B]])
+                c.asInstanceOf[C[B]]
               ) // Coz we have compile time evidence that B is infact A
             case Tail(x) => ev.withElem(trap)(x)
           }
@@ -37,7 +33,7 @@ object All {
 
   // The definition is slightly from what mentioned in the paper where it traverses hlist
   implicit def allHList2[C[_]]: All[C, HNil] = new All[C, HNil] {
-    override def withElem[B, D](trap: Trap[C, B] => D)(implicit
+    override def withElem[B, D](trap: C[B] => D)(implicit
         ev: Elem[B, HNil]
     ): D =
       sys.error("hmmm")

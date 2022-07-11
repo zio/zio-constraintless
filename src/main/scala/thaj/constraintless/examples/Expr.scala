@@ -90,8 +90,8 @@ object compiler {
       case Ratio(a, b, c, d) =>
         compile(a).flatMap(aa =>
           compile(b).map(bb => {
-            def showInt[B](b: B)(trap: All.Trap[IntBool, B]): Int =
-              trap.ev.toInt(b)
+            def showInt[B](b: B)(trap: IntBool[B]): Int =
+              trap.toInt(b)
 
             ev.withElem(showInt(aa))(c) / ev.withElem(
               showInt(bb)
@@ -130,8 +130,8 @@ object compiler {
         * """
         */
       case Value(a, constraint) =>
-        def showInt[B](b: B)(trap: All.Trap[IntBool, B]): String =
-          s"${trap.ev.toInt(b)}"
+        def showInt[B](b: B)(ev: IntBool[B]): String =
+          s"${ev.toInt(b)}"
         s"${ev.withElem(showInt(a))(constraint)}"
 
     }
@@ -162,8 +162,8 @@ object compiler {
         s"${y} ${z}"
 
       case Value(a, constraint) =>
-        def showInt[B](b: B)(trap: All.Trap[Show, B]): String =
-          s"${trap.ev.show(b)}"
+        def showInt[B](b: B)(ev: Show[B]): String =
+          s"${ev.show(b)}"
 
         s"${show.withElem(showInt(a))(constraint)}"
     }

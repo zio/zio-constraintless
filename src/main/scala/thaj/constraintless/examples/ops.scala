@@ -101,7 +101,7 @@ object queryplannercompiler {
                     k,
                     (
                       b,
-                      mathOp.withElem[c, c](_.ev.zero)(zip.elem2)
+                      mathOp.withElem[c, c](_.zero)(zip.elem2)
                     )
                   )
                 )
@@ -112,9 +112,6 @@ object queryplannercompiler {
           val map1 = loop(ratio.left)
           val map2 = loop(ratio.right)
 
-          def zero[B](trap: All.Trap[MathOp, B]): B =
-            trap.ev.zero
-
           map1.map({ case (k, b) =>
             map2
               .get(k)
@@ -122,13 +119,13 @@ object queryplannercompiler {
                 (
                   k,
                   mathOp
-                    .withElem[B, B](trap => trap.ev.ratio(b, b2))(ratio.elem1)
+                    .withElem[B, B](trap => trap.ratio(b, b2))(ratio.elem1)
                 )
               })
               .getOrElse(
                 (
                   k,
-                  mathOp.withElem[B, B](trap => trap.ev.zero)(
+                  mathOp.withElem[B, B](trap => trap.zero)(
                     ratio.elem1
                   )
                 )
