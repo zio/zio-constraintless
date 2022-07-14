@@ -14,10 +14,10 @@ object IsElementOf {
   final case class Tail[A, B, As <: TypeList](ev: IsElementOf[A, As])
       extends IsElementOf[A, B :: As]
 
-  implicit def elemA[A, As <: TypeList]: IsElementOf[A, A :: As] =
+  implicit def isElementOfHead[A, As <: TypeList]: IsElementOf[A, A :: As] =
     Head[A, As]()
 
-  implicit def elemeB[A, B, As <: TypeList](implicit
+  implicit def isElementOfTail[A, B, As <: TypeList](implicit
       ev: IsElementOf[A, As]
   ): IsElementOf[A, B :: As] =
     Tail[A, B, As](ev)

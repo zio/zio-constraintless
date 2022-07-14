@@ -79,7 +79,7 @@ object compiler {
 
   def compile[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit ev: All[IntBool, As]): IO[A] =
+  )(implicit ev: Instances[IntBool, As]): IO[A] =
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         compile(expr).flatMap({ bool =>
@@ -92,10 +92,10 @@ object compiler {
       case Ratio(a, b, c, d) =>
         compile(a).flatMap(aa =>
           compile(b).map(bb => {
-            def showInt[B](b: B)(trap: IntBool[B]): Int =
-              trap.toInt(b)
+            def showInt[B](b: B)(use: IntBool[B]): Int =
+              use.toInt(b)
 
-            ev.withElem(showInt(aa))(c) / ev.withElem(
+            ev.withInstance(showInt(aa))(c) / ev.withInstance(
               showInt(bb)
             )(c)
           })
@@ -104,10 +104,10 @@ object compiler {
       case Value(a, e) => Some(a)
     }
 
-  // Making use of `All` in paper rather than `AllIntBool`
+  // Making use of `Instances` in paper rather than `AllIntBool`
   def compileSM[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit ev: All[IntBool, As]): String =
+  )(implicit ev: Instances[IntBool, As]): String =
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         s"if (${compileSM(expr)} then ${compileSM(ifCond)} else ${compileSM(thenCond)}} "
@@ -134,13 +134,13 @@ object compiler {
       case Value(a, constraint) =>
         def showInt[B](b: B)(ev: IntBool[B]): String =
           s"${ev.toInt(b)}"
-        s"${ev.withElem(showInt(a))(constraint)}"
+        s"${ev.withInstance(showInt(a))(constraint)}"
 
     }
 
   def pretty[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit show: All[Show, As]): String = {
+  )(implicit show: Instances[Show, As]): String = {
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         val x = pretty(expr)
@@ -167,7 +167,7 @@ object compiler {
         def showInt[B](b: B)(ev: Show[B]): String =
           s"${ev.show(b)}"
 
-        s"${show.withElem(showInt(a))(constraint)}"
+        s"${show.withInstance(showInt(a))(constraint)}"
     }
   }
 
@@ -195,7 +195,7 @@ object ExprExample extends App {
 
   val value3 = value2 / value2
 
-  import All._
+  import Instances._
   println(compiler.compileSM(value))
   println(compiler.pretty(value))
   println(compiler.pretty(value2))
