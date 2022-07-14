@@ -2,8 +2,9 @@ package zio.constraintless
 
 import TypeList._
 
-sealed trait IsElementOf[A, As <: TypeList]
+sealed trait IsElementOf[Type, Types <: TypeList]
 
+//
 object IsElementOf {
   def apply[A, As <: TypeList](implicit
       ev: IsElementOf[A, As]
