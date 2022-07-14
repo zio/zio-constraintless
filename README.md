@@ -92,8 +92,8 @@ f e = ...(compileSM e)...(pretty e)..
 
 and that's impossible
 
-[Badge-Scaladex-page]: https://index.scala-lang.org/afsalzio/constraintless/latest.svg "Scaladex"
-[Badge-SonatypeReleases]: https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.afsalzio/constraintless_2.12.svg "Sonatype Releases"
+[Badge-Scaladex-page]: https://index.scala-lang.org/afsalthaj/constraintless/latest.svg "Scaladex"
+[Badge-SonatypeReleases]: https://img.shields.io/nexus/r/https/oss.sonatype.org/io.github.afsalthaj/constraintless_2.12.svg "Sonatype Releases"
 [Badge-Twitter]: https://img.shields.io/twitter/follow/zioscala.svg?style=plastic&label=follow&logo=twitter
 
 [Link-Scaladex-page]: https://index.scala-lang.org/afsalthaj/constraintless "Scaladex"
