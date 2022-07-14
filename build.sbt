@@ -1,4 +1,4 @@
-name := "constraintless"
+name := "zio-constraintless"
 
 version := "0.2.1"
 
@@ -9,6 +9,10 @@ scalacOptions ++=
      Seq("-Ykind-projector")
    else Seq())
 
+lazy val core = project in (new File("core"))
+
+lazy val example = (project in (new File("examples"))).dependsOn(core)
+
 libraryDependencies ++= (
   if (scalaVersion.value.startsWith("3")) Seq()
   else
@@ -17,22 +21,4 @@ libraryDependencies ++= (
         "org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full
       )
     )
-)
-
-inThisBuild(
-  List(
-    organization := "io.github.afsalthaj",
-    homepage := Some(url("https://github.com/sbt/sbt-ci-release")),
-    licenses := List(
-      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
-    ),
-    developers := List(
-      Developer(
-        "Afsal",
-        "Afsal Thaj",
-        "afsal.taj06@gmail.com",
-        url("https://afsalthaj.github.io/myblog/")
-      )
-    )
-  )
 )

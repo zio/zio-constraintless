@@ -1,4 +1,4 @@
-package thaj.constraintless.examples
+package zio.constraintless.examples
 
 trait IntBool[A] {
   def toInt(a: A): Int

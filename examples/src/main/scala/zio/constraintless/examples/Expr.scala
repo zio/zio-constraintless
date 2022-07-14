@@ -1,67 +1,70 @@
-// http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
-package thaj.constraintless.examples
+package zio.constraintless.examples
 
-import thaj.constraintless._
+import zio.constraintless._
 
-trait Expr[As <: HList, A] {
+trait Expr[As <: TypeList, A] {
   def /(
       expr: Expr[As, A]
-  )(implicit ev: A Elem As, ev2: Int Elem As): Expr[As, Int] =
+  )(implicit ev: A IsElementOf As, ev2: Int IsElementOf As): Expr[As, Int] =
     Ratio(this, expr, ev, ev2)
 }
 
-case class Value[As <: HList, A](a: A, e: A Elem As) extends Expr[As, A]
+case class Value[As <: TypeList, A](a: A, e: A IsElementOf As)
+    extends Expr[As, A]
 
-case class Prod[As <: HList, A, B](
+case class Prod[As <: TypeList, A, B](
     a: Expr[As, A],
     b: Expr[As, B],
-    c1: A Elem As,
-    c2: B Elem As
+    c1: A IsElementOf As,
+    c2: B IsElementOf As,
+    c3: (A, B) IsElementOf As
 ) extends Expr[As, (A, B)]
 
-case class Cond[As <: HList, A](
+case class Cond[As <: TypeList, A](
     expr: Expr[As, Boolean],
     ifCond: Expr[As, A],
     thenCond: Expr[As, A],
-    c1: A Elem As,
-    c2: Boolean Elem As
+    c1: A IsElementOf As,
+    c2: Boolean IsElementOf As
 ) extends Expr[As, A]
 
-case class Ratio[As <: HList, A](
+case class Ratio[As <: TypeList, A](
     l: Expr[As, A],
     r: Expr[As, A],
-    c1: A Elem As,
-    c2: Int Elem As
+    c1: A IsElementOf As,
+    c2: Int IsElementOf As
 ) extends Expr[As, Int]
 
-case class EqE[As <: HList, A](
+case class EqE[As <: TypeList, A](
     l: Expr[As, A],
     r: Expr[As, A],
     c1: Eq[A],
-    c2: A Elem As,
-    c3: Boolean Elem As
+    c2: A IsElementOf As,
+    c3: Boolean IsElementOf As
 ) extends Expr[As, Boolean]
 
 object Expr {
-  def value[A, As <: HList](a: A)(implicit e: A Elem As): Expr[As, A] =
+  def value[A, As <: TypeList](a: A)(implicit
+      e: A IsElementOf As
+  ): Expr[As, A] =
     Value(a, e)
 
-  def prod[A, B, C, As <: HList](a: Expr[As, A], b: Expr[As, B])(implicit
-      e: A Elem As,
-      f: B Elem As
+  def prod[A, B, C, As <: TypeList](a: Expr[As, A], b: Expr[As, B])(implicit
+      e: A IsElementOf As,
+      f: B IsElementOf As
   ): Expr[As, (A, B)] =
     Prod(a, b, e, f)
 
-  def condE[A, As <: HList](
+  def condE[A, As <: TypeList](
       l: Expr[As, Boolean],
       exec1: Expr[As, A],
       exec2: Expr[As, A]
-  )(implicit e: Elem[A, As], b: Elem[Boolean, As]): Expr[As, A] =
+  )(implicit e: IsElementOf[A, As], b: IsElementOf[Boolean, As]): Expr[As, A] =
     Cond(l, exec1, exec2, e, b)
 
-  def eqE[A, As <: HList](exec1: Expr[As, A], exec2: Expr[As, A])(implicit
-      e: Elem[A, As],
-      b: Elem[Boolean, As],
+  def eqE[A, As <: TypeList](exec1: Expr[As, A], exec2: Expr[As, A])(implicit
+      e: IsElementOf[A, As],
+      b: IsElementOf[Boolean, As],
       eq: Eq[A]
   ): Expr[As, Boolean] =
     EqE(exec1, exec2, eq, e, b)
@@ -75,9 +78,9 @@ object compiler {
 
   type IO[A] = Option[A]
 
-  def compile[As <: HList, A](
+  def compile[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit ev: All[IntBool, As]): IO[A] =
+  )(implicit ev: Instances[IntBool, As]): IO[A] =
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         compile(expr).flatMap({ bool =>
@@ -90,10 +93,10 @@ object compiler {
       case Ratio(a, b, c, d) =>
         compile(a).flatMap(aa =>
           compile(b).map(bb => {
-            def showInt[B](b: B)(trap: IntBool[B]): Int =
-              trap.toInt(b)
+            def showInt[B](b: B)(use: IntBool[B]): Int =
+              use.toInt(b)
 
-            ev.withElem(showInt(aa))(c) / ev.withElem(
+            ev.withInstance(showInt(aa))(c) / ev.withInstance(
               showInt(bb)
             )(c)
           })
@@ -102,10 +105,10 @@ object compiler {
       case Value(a, e) => Some(a)
     }
 
-  // Making use of `All` in paper rather than `AllIntBool`
-  def compileSM[As <: HList, A](
+  // Making use of `Instances` in paper rather than `AllIntBool`
+  def compileSM[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit ev: All[IntBool, As]): String =
+  )(implicit ev: Instances[IntBool, As]): String =
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         s"if (${compileSM(expr)} then ${compileSM(ifCond)} else ${compileSM(thenCond)}} "
@@ -132,13 +135,13 @@ object compiler {
       case Value(a, constraint) =>
         def showInt[B](b: B)(ev: IntBool[B]): String =
           s"${ev.toInt(b)}"
-        s"${ev.withElem(showInt(a))(constraint)}"
+        s"${ev.withInstance(showInt(a))(constraint)}"
 
     }
 
-  def pretty[As <: HList, A](
+  def pretty[As <: TypeList, A](
       expr: Expr[As, A]
-  )(implicit show: All[Show, As]): String = {
+  )(implicit show: Instances[Show, As]): String = {
     expr match {
       case Cond(expr, ifCond, thenCond, c1, c2) =>
         val x = pretty(expr)
@@ -165,17 +168,17 @@ object compiler {
         def showInt[B](b: B)(ev: Show[B]): String =
           s"${ev.show(b)}"
 
-        s"${show.withElem(showInt(a))(constraint)}"
+        s"${show.withInstance(showInt(a))(constraint)}"
     }
   }
 
 }
 
 object ExprExample extends App {
-  import HList._
+  import TypeList._
 
   // These types will act as the types that the entire program structure supports
-  type AllowedTypes = Int :: Double :: Boolean :: (Double, Double) :: HNil
+  type AllowedTypes = Int :: Double :: Boolean :: (Double, Double) :: End
 
   // Every tree is part of the allowed type
   val value: Expr[AllowedTypes, Double] =
@@ -193,7 +196,7 @@ object ExprExample extends App {
 
   val value3 = value2 / value2
 
-  import All._
+  import Instances._
   println(compiler.compileSM(value))
   println(compiler.pretty(value))
   println(compiler.pretty(value2))

@@ -1,4 +1,4 @@
-package thaj.constraintless.examples
+package zio.constraintless.examples
 
 trait Show[A] {
   def show(a: A): String
