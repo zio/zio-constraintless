@@ -4,7 +4,6 @@ import TypeList._
 
 sealed trait IsElementOf[Type, Types <: TypeList]
 
-//
 object IsElementOf {
   def apply[A, As <: TypeList](implicit
       ev: IsElementOf[A, As]

@@ -17,7 +17,6 @@ case class Prod[As <: TypeList, A, B](
     b: Expr[As, B],
     c1: A IsElementOf As,
     c2: B IsElementOf As,
-    c3: (A, B) IsElementOf As
 ) extends Expr[As, (A, B)]
 
 case class Cond[As <: TypeList, A](
