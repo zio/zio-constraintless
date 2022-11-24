@@ -22,3 +22,14 @@ libraryDependencies ++= (
       )
     )
 )
+
+lazy val docs = project
+  .in(file("zio-constraintless-docs"))
+  .settings(
+    publish / skip := true,
+    moduleName     := "zio-constraintless-docs",
+    scalacOptions -= "-Yno-imports",
+    scalacOptions -= "-Xfatal-warnings"
+  )
+  .dependsOn(core)
+  .enablePlugins(WebsitePlugin)
