@@ -1,5 +1,3 @@
-import BuildHelper._
-
 inThisBuild(
   List(
     organization := "dev.zio",
