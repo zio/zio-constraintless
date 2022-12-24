@@ -4,7 +4,11 @@ title: "Introduction to ZIO Constraintless"
 sidebar_label: "ZIO Constraintless"
 ---
 
-Allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero casting.
+ZIO Constraintless allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero casting.
+
+@PROJECT_BADGES@
+
+## Introduction
 
 It is **a Scala take on the following paper in Haskell, on parametrising the program with logical constraints at every node, without compromising modularity**
 
@@ -12,18 +16,17 @@ http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf
 
 An excerpt from the paper:
 
-
 _"The key principle that underpins our idea is that implementation- specific constraints should be imposed at the point of use of a data type, not at the point of definition, i.e. it embodies the established principle that an interface should be separated from its implementation(s)."_
 
-
-## Quick Start
-
-Example: https://github.com/afsalthaj/constraintless/blob/master/src/main/scala/thaj/constraintless/examples/Expr.scala
-
+## Installation
 
 ```sbt
-libraryDependencies += "io.github.afsalthaj" %% "constraintless" % "@VERSION@"
+libraryDependencies += "dev.zio" %% "constraintless" % "@VERSION@"
 ```
+
+## Example 
+
+Example: https://github.com/zio/zio-constraintless/blob/master/examples/src/main/scala/zio/constraintless/examples/Expr.scala
 
 ## Context
 
@@ -35,11 +38,9 @@ The obvious implication of having to handle "unknown" is that, the data should h
 
 This naive approach imposes modularity issues, and possible runtime crashes. The reasonsing and solution is given in the above paper, and this project solves the exact problem in scala.
 
-
 ## Why not the Hughes schema?
 
 It doesn't allow you to have a compiler with multiple constraints.
-
 
 A few excerpts from the paper on why it doesn't work:
 
@@ -55,11 +56,9 @@ instance IntBool a ⇒ Typeable SM a where
 ```
 
 ```scala
-
 newtype Pretty a = Pretty {fromPretty :: String}
 
 instance Show a ⇒ Typeable Pretty a where valueP = Pretty · show
-
 ```
 
 ```scala
@@ -71,12 +70,9 @@ CondE ::Expp Bool→Exp p a → Exp p a → Exp p a
 EqE :: Eq a ⇒ Exp p a → Exp p a → Exp p Bool
 ```
 
-
 ```scala
 pretty :: Exp Pretty a → String // works
 compileSM :: Exp SM a → String // works
-
-
 ```
 
 However, now suppose that we wish to apply the two functions to the same expression, as in:
@@ -87,4 +83,3 @@ f e = ...(compileSM e)...(pretty e)..
 ```
 
 and that's impossible
-

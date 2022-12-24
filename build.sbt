@@ -57,7 +57,15 @@ lazy val docs = project
     publish / skip := true,
     name := "zio-constraintless-docs",
     scalacOptions -= "-Yno-imports",
-    scalacOptions -= "-Xfatal-warnings"
+    scalacOptions -= "-Xfatal-warnings",
+    projectName := "ZIO Constraintless",
+    badgeInfo := Some(
+      BadgeInfo(
+        artifact = "zio-constraintless_2.12",
+        projectStage = ProjectStage.Development
+      )
+    ),
+    docsPublishBranch := "master"
   )
   .dependsOn(core)
   .enablePlugins(WebsitePlugin)
