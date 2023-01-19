@@ -29,6 +29,12 @@ inThisBuild(
   )
 )
 
+lazy val root =
+  project
+    .in(file("."))
+    .settings(publish / skip := true)
+    .aggregate(core, example, docs)
+
 lazy val core = project
   .in(file("core"))
   .settings(
@@ -54,17 +60,13 @@ lazy val example = (project in (new File("examples")))
 lazy val docs = project
   .in(file("zio-constraintless-docs"))
   .settings(
-    publish / skip := true,
     name := "zio-constraintless-docs",
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     projectName := "ZIO Constraintless",
-    badgeInfo := Some(
-      BadgeInfo(
-        artifact = "zio-constraintless_2.12",
-        projectStage = ProjectStage.Development
-      )
-    ),
+    mainModuleName := (core / moduleName).value,
+    projectStage := ProjectStage.Development,
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core),
     docsPublishBranch := "master"
   )
   .dependsOn(core)
