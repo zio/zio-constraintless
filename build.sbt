@@ -67,7 +67,8 @@ lazy val docs = project
     mainModuleName := (core / moduleName).value,
     projectStage := ProjectStage.Development,
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core),
-    docsPublishBranch := "master"
+    docsPublishBranch := "master",
+    ciWorkflowName := "Website"
   )
   .dependsOn(core)
   .enablePlugins(WebsitePlugin)
