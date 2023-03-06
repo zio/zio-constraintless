@@ -6,5 +6,5 @@ project/metals.sbt
 .metals
 .DS_Store
 .DS_Store/
-target/
+target
 .idea

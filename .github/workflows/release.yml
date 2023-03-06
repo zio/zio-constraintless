@@ -1,16 +1,71 @@
 name: Release
 on:
+  pull_request:
   push:
     branches: [master, main]
-    tags: ["*"]
+  release:
+    types: [published]
 jobs:
-  publish:
-    runs-on: ubuntu-20.04
+
+  lint:
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2.3.4
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v3.10.0
         with:
-          fetch-depth: 0
-      - uses: olafurpg/setup-scala@v13
+          distribution: temurin
+          java-version: 17
+          cache: 'sbt'
+      - run: sbt check
+
+  publishLocal:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v3.10.0
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: 'sbt'
+      - run: sbt +publishLocal
+
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v3.10.0
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: 'sbt'
+      - run: sbt +test
+
+  ci:
+    runs-on: ubuntu-22.04
+    needs: [lint, publishLocal, test]
+    steps:
+      - name: Aggregate of lint, and all tests
+        run: echo "ci passed"
+
+  publish:
+    runs-on: ubuntu-22.04
+    needs: [ci]
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v3.10.0
+        with:
+          distribution: temurin
+          java-version: 8
+          cache: 'sbt'
       - run: sbt ci-release
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}

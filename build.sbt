@@ -1,3 +1,8 @@
+val Scala211 = "2.11.12"
+val Scala212 = "2.12.17"
+val Scala213 = "2.13.10"
+val Scala3 = "3.2.2"
+
 inThisBuild(
   List(
     organization := "dev.zio",
@@ -13,14 +18,13 @@ inThisBuild(
         url("http://degoes.net")
       )
     ),
-    resolvers +=
-      "Sonatype OSS Snapshots 01" at "https://s01.oss.sonatype.org/content/repositories/snapshots",
-    pgpPassphrase := sys.env.get("PGP_PASSWORD").map(_.toArray),
-    pgpPublicRing := file("/tmp/public.asc"),
-    pgpSecretRing := file("/tmp/secret.asc"),
-    resolvers +=
-      "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-    crossScalaVersions := List("2.12.16", "2.13.8", "3.1.2"),
+    crossScalaVersions := List(Scala211, Scala212, Scala213, Scala3),
+    scalaVersion := Scala213,
+    scalacOptions ++= List(
+      "-Xfatal-warnings",
+      "-feature",
+      "-language:higherKinds"
+    ),
     scalacOptions ++= (
       if (scalaVersion.value.startsWith("3"))
         Seq("-Ykind-projector")
@@ -29,13 +33,27 @@ inThisBuild(
   )
 )
 
+addCommandAlias("fix", "; all scalafmtSbt scalafmtAll")
+addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll; Test/compile")
+
 lazy val root =
   project
     .in(file("."))
-    .settings(publish / skip := true)
-    .aggregate(core, example, docs)
+    .settings(
+      publish / skip := true,
+      crossScalaVersions := List() // override because we set it in `inThisBuild`
+    )
+    .aggregate(
+      core.js,
+      core.jvm,
+      core.native,
+      docs,
+      examples.js,
+      examples.jvm,
+      examples.native
+    )
 
-lazy val core = project
+lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("core"))
   .settings(
     name := "zio-constraintless",
@@ -49,26 +67,32 @@ lazy val core = project
         )
     )
   )
+  .enablePlugins(BuildInfoPlugin)
 
-lazy val example = (project in (new File("examples")))
+lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .in(file("examples"))
   .settings(
     name := "zio-constraintless-examples",
-    publish / skip := true
+    publish / skip := true,
+    crossScalaVersions -= Scala211
   )
   .dependsOn(core)
+  .enablePlugins(BuildInfoPlugin)
 
 lazy val docs = project
   .in(file("zio-constraintless-docs"))
   .settings(
     name := "zio-constraintless-docs",
+    crossScalaVersions -= Scala211,
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     projectName := "ZIO Constraintless",
-    mainModuleName := (core / moduleName).value,
+    mainModuleName := (core.jvm / moduleName).value,
     projectStage := ProjectStage.Development,
-    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core),
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core.jvm),
     docsPublishBranch := "master",
     ciWorkflowName := "Website"
   )
-  .dependsOn(core)
+  .dependsOn(core.jvm)
+  .enablePlugins(BuildInfoPlugin)
   .enablePlugins(WebsitePlugin)
