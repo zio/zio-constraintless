@@ -1,10 +1,10 @@
 project/.bloop
-project/target/
+project/target
 project/metals.sbt
 .bsp
 .bloop
 .metals
 .DS_Store
 .DS_Store/
-target/
+target
 .idea
