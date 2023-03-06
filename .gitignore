@@ -1,5 +1,5 @@
 project/.bloop
-project/target/
+project/target
 project/metals.sbt
 .bsp
 .bloop
