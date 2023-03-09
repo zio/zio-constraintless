@@ -86,7 +86,7 @@ and that's impossible
 
 ## Documentation
 
-Learn more on the [ZIO Constraintless homepage](https://zio.dev/zio-flow/)!
+Learn more on the [ZIO Constraintless homepage](https://zio.dev/zio-constraintless/)!
 
 ## Contributing
 
