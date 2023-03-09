@@ -6,7 +6,7 @@ val Scala3 = "3.2.2"
 inThisBuild(
   List(
     organization := "dev.zio",
-    homepage := Some(url("https://zio.dev/zio-flow/")),
+    homepage := Some(url("https://zio.dev/zio-constraintless/")),
     licenses := List(
       "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
     ),
