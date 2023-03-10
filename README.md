@@ -21,7 +21,7 @@ _"The key principle that underpins our idea is that implementation- specific con
 ## Installation
 
 ```sbt
-libraryDependencies += "dev.zio" %% "constraintless" % "0.3.1"
+libraryDependencies += "dev.zio" %% "constraintless" % "0.3.2"
 ```
 
 ## Example 
@@ -86,7 +86,7 @@ and that's impossible
 
 ## Documentation
 
-Learn more on the [ZIO Constraintless homepage](https://zio.dev/zio-flow/)!
+Learn more on the [ZIO Constraintless homepage](https://zio.dev/zio-constraintless/)!
 
 ## Contributing
 
