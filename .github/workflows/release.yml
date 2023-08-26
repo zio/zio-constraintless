@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout current branch
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Java
         uses: actions/setup-java@v3.10.0
         with:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout current branch
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Java
         uses: actions/setup-java@v3.10.0
         with:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout current branch
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Java
         uses: actions/setup-java@v3.10.0
         with:
@@ -59,7 +59,7 @@ jobs:
     if: github.event_name != 'pull_request'
     steps:
       - name: Checkout current branch
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.6.0
       - name: Setup Java
         uses: actions/setup-java@v3.10.0
         with:
