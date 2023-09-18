@@ -1,5 +1,5 @@
 // Make this run without compile time errors or runtime exceptions !
-// without using the library constraintless 
+// without using the library constraintless
 object MakeThisWork extends App {
 
   sealed trait Expr[A] {
@@ -32,8 +32,11 @@ object MakeThisWork extends App {
         f(left_, right_)
 
       case z: Zip[a, b] =>
-        val left_ = run(z.left.asInstanceOf[Expr[Any]])(f.asInstanceOf[(Any, Any) => Any])
-        val right_ = run(z.right.asInstanceOf[Expr[Any]])(f.asInstanceOf[(Any, Any) => Any])
+        val left_ =
+          run(z.left.asInstanceOf[Expr[Any]])(f.asInstanceOf[(Any, Any) => Any])
+        val right_ = run(z.right.asInstanceOf[Expr[Any]])(
+          f.asInstanceOf[(Any, Any) => Any]
+        )
 
         (left_, right_).asInstanceOf[A]
     }
@@ -41,7 +44,7 @@ object MakeThisWork extends App {
 
   val add: ((Int, Int), (Int, Int)) => (Int, Int) =
     (a, b) => (a._1 + b._1, (a._2 + b._2))
-  
+
   val added: Expr[Int] =
     int(1).plus(int(2))
 
@@ -51,20 +54,19 @@ object MakeThisWork extends App {
   // Make this work
   println(run(zipAdded)(add)) // doesn't work
 
-
   // How does the following work?
 
   val zipped = int(1).zip(int(2))
-  val addZipped  = zipped.plus(zipped)
+  val addZipped = zipped.plus(zipped)
 
   run(addZipped)(add) // does work
-  
-  // Another problem: 
+
+  // Another problem:
   // Can you try and avoid having to summon manually how to add various tuples and still work with run method.
   // i.e, I should be able to simply do `run(addZipped)` instead of `run(addZipped)(add)`
   run(addZipped) // make it compile
   run(added)
   run(zipAdded)
   run(added.zip(added).zip(added).zip(added))
-  
+
 }
