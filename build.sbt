@@ -1,7 +1,6 @@
-val Scala211 = "2.11.12"
-val Scala212 = "2.12.17"
-val Scala213 = "2.13.10"
-val Scala3 = "3.2.2"
+val Scala212 = "2.12.19"
+val Scala213 = "2.13.13"
+val Scala3 = "3.3.3"
 
 inThisBuild(
   List(
@@ -18,7 +17,7 @@ inThisBuild(
         url("http://degoes.net")
       )
     ),
-    crossScalaVersions := List(Scala211, Scala212, Scala213, Scala3),
+    crossScalaVersions := List(Scala212, Scala213, Scala3),
     scalaVersion := Scala213,
     scalacOptions ++= List(
       "-Xfatal-warnings",
@@ -62,7 +61,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       else
         Seq(
           compilerPlugin(
-            "org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full
+            "org.typelevel" %% "kind-projector" % "0.13.3" cross CrossVersion.full
           )
         )
     )
@@ -73,8 +72,7 @@ lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("examples"))
   .settings(
     name := "zio-constraintless-examples",
-    publish / skip := true,
-    crossScalaVersions -= Scala211
+    publish / skip := true
   )
   .dependsOn(core)
   .enablePlugins(BuildInfoPlugin)
@@ -83,7 +81,6 @@ lazy val docs = project
   .in(file("zio-constraintless-docs"))
   .settings(
     name := "zio-constraintless-docs",
-    crossScalaVersions -= Scala211,
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     projectName := "ZIO Constraintless",
