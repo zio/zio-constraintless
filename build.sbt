@@ -1,6 +1,6 @@
-val Scala212 = "2.12.19"
-val Scala213 = "2.13.13"
-val Scala3 = "3.3.3"
+val Scala212 = "2.12.20"
+val Scala213 = "2.13.16"
+val Scala3 = "3.7.0"
 
 inThisBuild(
   List(
@@ -15,7 +15,13 @@ inThisBuild(
         "John De Goes",
         "john@degoes.net",
         url("http://degoes.net")
-      )
+      ),
+      Developer(
+         "afsalthaj",
+         "Afsal Thaj",
+         "https://medium.com/@afsal.taj06",
+         url("https://github.com/afsalthaj")
+      ),
     ),
     crossScalaVersions := List(Scala212, Scala213, Scala3),
     scalaVersion := Scala213,
