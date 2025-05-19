@@ -17,11 +17,11 @@ inThisBuild(
         url("http://degoes.net")
       ),
       Developer(
-         "afsalthaj",
-         "Afsal Thaj",
-         "https://medium.com/@afsal.taj06",
-         url("https://github.com/afsalthaj")
-      ),
+        "afsalthaj",
+        "Afsal Thaj",
+        "https://medium.com/@afsal.taj06",
+        url("https://github.com/afsalthaj")
+      )
     ),
     crossScalaVersions := List(Scala212, Scala213, Scala3),
     scalaVersion := Scala213,
