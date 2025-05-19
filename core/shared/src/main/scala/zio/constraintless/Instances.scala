@@ -33,6 +33,6 @@ object Instances {
     override def withInstance[B, D](use: C[B] => D)(implicit
         ev: IsElementOf[B, End]
     ): D =
-      sys.error("hmmm")
+      sys.error("unreachable")
   }
 }

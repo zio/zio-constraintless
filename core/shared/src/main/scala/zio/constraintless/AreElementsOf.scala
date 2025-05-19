@@ -28,9 +28,3 @@ object AreElementsOf {
     NilCollection()
 
 }
-
-object Sample extends App {
-  println(AreElementsOf[Int :: Double :: End, Int :: Double :: End])
-  println(AreElementsOf[Double :: Int :: End, Int :: Double :: Long :: End])
-  // println(AreElementsOf[String :: Double :: End, Int :: Double :: End]) // doesn't compiol;e
-}
