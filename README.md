@@ -26,7 +26,7 @@ libraryDependencies += "dev.zio" %% "constraintless" % "0.3.2"
 
 ## Example 
 
-Example: https://github.com/zio/zio-constraintless/blob/master/examples/src/main/scala/zio/constraintless/examples/Expr.scala
+Example: [examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala](https://github.com/zio/zio-constraintless/blob/master/examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala)
 
 ## Context
 
