@@ -18,6 +18,8 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: 'sbt'
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1     
       - run: sbt check
 
   publishLocal:
@@ -25,6 +27,8 @@ jobs:
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3.6.0
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1     
       - name: Setup Java
         uses: actions/setup-java@v3.13.0
         with:
@@ -38,6 +42,8 @@ jobs:
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3.6.0
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1     
       - name: Setup Java
         uses: actions/setup-java@v3.13.0
         with:
@@ -60,6 +66,8 @@ jobs:
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3.6.0
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1     
       - name: Setup Java
         uses: actions/setup-java@v3.13.0
         with:
