@@ -10,8 +10,8 @@ object AreElementsOf {
   ): AreElementsOf[T1, T2] = ev
 
   final case class TypeCollection[T1, T11 <: TypeList, T2 <: TypeList](
-      ev1: T1 IsElementOf T2,
-      ev2: T11 AreElementsOf T2
+      ev1: T1 `IsElementOf` T2,
+      ev2: T11 `AreElementsOf` T2
   ) extends AreElementsOf[T1 :: T11, T2]
 
   final case class NilCollection[T2 <: TypeList]()
@@ -19,18 +19,12 @@ object AreElementsOf {
 
   implicit def typesElementsOfTypes[Head, Tail <: TypeList, Types <: TypeList](
       implicit
-      ev1: Head IsElementOf Types,
-      ev2: Tail AreElementsOf Types
+      ev1: Head `IsElementOf` Types,
+      ev2: Tail `AreElementsOf` Types
   ): AreElementsOf[Head :: Tail, Types] =
     TypeCollection(ev1, ev2)
 
   implicit def endElementOfTypes[Types <: TypeList]: AreElementsOf[End, Types] =
     NilCollection()
 
-}
-
-object Sample extends App {
-  println(AreElementsOf[Int :: Double :: End, Int :: Double :: End])
-  println(AreElementsOf[Double :: Int :: End, Int :: Double :: Long :: End])
-  // println(AreElementsOf[String :: Double :: End, Int :: Double :: End]) // doesn't compiol;e
 }

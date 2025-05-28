@@ -1,10 +1,10 @@
 package zio.constraintless
 
-import IsElementOf._
+import `IsElementOf`._
 
 trait Instances[TypeClass[_], As <: TypeList] {
   def withInstance[B, D](use: TypeClass[B] => D)(implicit
-      ev: B IsElementOf As
+      ev: B `IsElementOf` As
   ): D
 }
 
@@ -17,7 +17,7 @@ object Instances {
   ): Instances[C, A :: As] = new Instances[C, A :: As] {
     override def withInstance[B, D](
         use: C[B] => D
-    )(implicit ev2: IsElementOf[B, A :: As]): D =
+    )(implicit ev2: `IsElementOf`[B, A :: As]): D =
       ev2 match {
         case Head() =>
           use(
@@ -31,8 +31,8 @@ object Instances {
   // The definition is slightly from what mentioned in the paper where it traverses hlist
   implicit def instancesEnd[C[_]]: Instances[C, End] = new Instances[C, End] {
     override def withInstance[B, D](use: C[B] => D)(implicit
-        ev: IsElementOf[B, End]
+        ev: `IsElementOf`[B, End]
     ): D =
-      sys.error("hmmm")
+      sys.error("unreachable")
   }
 }

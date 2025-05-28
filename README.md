@@ -21,12 +21,12 @@ _"The key principle that underpins our idea is that implementation- specific con
 ## Installation
 
 ```sbt
-libraryDependencies += "dev.zio" %% "constraintless" % "0.3.2"
+libraryDependencies += "dev.zio" %% "constraintless" % "0.3.3"
 ```
 
 ## Example 
 
-Example: [examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala](https://github.com/zio/zio-constraintless/blob/master/examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala)
+Example: https://github.com/zio/zio-constraintless/blob/master/examples/src/main/scala/zio/constraintless/examples/Expr.scala
 
 ## Context
 
