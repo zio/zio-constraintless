@@ -5,52 +5,52 @@ import zio.constraintless._
 trait Expr[As <: TypeList, A] {
   def /(
       expr: Expr[As, A]
-  )(implicit ev: A IsElementOf As, ev2: Int IsElementOf As): Expr[As, Int] =
+  )(implicit ev: A `IsElementOf` As, ev2: Int `IsElementOf` As): Expr[As, Int] =
     Ratio(this, expr, ev, ev2)
 }
 
-case class Value[As <: TypeList, A](a: A, e: A IsElementOf As)
+case class Value[As <: TypeList, A](a: A, e: A `IsElementOf` As)
     extends Expr[As, A]
 
 case class Prod[As <: TypeList, A, B](
     a: Expr[As, A],
     b: Expr[As, B],
-    c1: A IsElementOf As,
-    c2: B IsElementOf As
+    c1: A `IsElementOf` As,
+    c2: B `IsElementOf` As
 ) extends Expr[As, (A, B)]
 
 case class Cond[As <: TypeList, A](
     expr: Expr[As, Boolean],
     ifCond: Expr[As, A],
     thenCond: Expr[As, A],
-    c1: A IsElementOf As,
-    c2: Boolean IsElementOf As
+    c1: A `IsElementOf` As,
+    c2: Boolean `IsElementOf` As
 ) extends Expr[As, A]
 
 case class Ratio[As <: TypeList, A](
     l: Expr[As, A],
     r: Expr[As, A],
-    c1: A IsElementOf As,
-    c2: Int IsElementOf As
+    c1: A `IsElementOf` As,
+    c2: Int `IsElementOf` As
 ) extends Expr[As, Int]
 
 case class EqE[As <: TypeList, A](
     l: Expr[As, A],
     r: Expr[As, A],
     c1: Eq[A],
-    c2: A IsElementOf As,
-    c3: Boolean IsElementOf As
+    c2: A `IsElementOf` As,
+    c3: Boolean `IsElementOf` As
 ) extends Expr[As, Boolean]
 
 object Expr {
   def value[A, As <: TypeList](a: A)(implicit
-      e: A IsElementOf As
+      e: A `IsElementOf` As
   ): Expr[As, A] =
     Value(a, e)
 
   def prod[A, B, C, As <: TypeList](a: Expr[As, A], b: Expr[As, B])(implicit
-      e: A IsElementOf As,
-      f: B IsElementOf As
+      e: A `IsElementOf` As,
+      f: B `IsElementOf` As
   ): Expr[As, (A, B)] =
     Prod(a, b, e, f)
 
@@ -58,12 +58,15 @@ object Expr {
       l: Expr[As, Boolean],
       exec1: Expr[As, A],
       exec2: Expr[As, A]
-  )(implicit e: IsElementOf[A, As], b: IsElementOf[Boolean, As]): Expr[As, A] =
+  )(implicit
+      e: `IsElementOf`[A, As],
+      b: `IsElementOf`[Boolean, As]
+  ): Expr[As, A] =
     Cond(l, exec1, exec2, e, b)
 
   def eqE[A, As <: TypeList](exec1: Expr[As, A], exec2: Expr[As, A])(implicit
-      e: IsElementOf[A, As],
-      b: IsElementOf[Boolean, As],
+      e: `IsElementOf`[A, As],
+      b: `IsElementOf`[Boolean, As],
       eq: Eq[A]
   ): Expr[As, Boolean] =
     EqE(exec1, exec2, eq, e, b)
