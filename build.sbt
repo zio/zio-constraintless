@@ -1,6 +1,6 @@
 val Scala212 = "2.12.20"
 val Scala213 = "2.13.16"
-val Scala3 = "3.7.0"
+val Scala3 = "3.6.3"
 
 inThisBuild(
   List(
@@ -19,7 +19,7 @@ inThisBuild(
       Developer(
         "afsalthaj",
         "Afsal Thaj",
-        "https://medium.com/@afsal.taj06",
+        "https://github.com/afsalthaj",
         url("https://github.com/afsalthaj")
       )
     ),
