@@ -65,6 +65,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("core"))
   .settings(
     name := "zio-constraintless",
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("3"))
+        Seq(
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
+      else Seq()
+    },
     libraryDependencies ++= (
       if (scalaVersion.value.startsWith("3")) Seq()
       else
@@ -80,6 +87,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("examples"))
   .settings(
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("3"))
+        Seq(
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
+      else Seq()
+    },
     name := "zio-constraintless-examples",
     publish / skip := true
   )
