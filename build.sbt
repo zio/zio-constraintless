@@ -1,6 +1,6 @@
 val Scala212 = "2.12.20"
 val Scala213 = "2.13.16"
-val Scala3 = "3.6.3"
+val Scala3 = "3.7.1"
 
 inThisBuild(
   List(
@@ -32,7 +32,10 @@ inThisBuild(
     ),
     scalacOptions ++= (
       if (scalaVersion.value.startsWith("3"))
-        Seq("-Ykind-projector")
+        Seq(
+          "-Ykind-projector",
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
       else Seq()
     )
   )
