@@ -1,6 +1,6 @@
 val Scala212 = "2.12.20"
 val Scala213 = "2.13.16"
-val Scala3 = "3.6.3"
+val Scala3 = "3.7.1"
 
 inThisBuild(
   List(
@@ -32,7 +32,10 @@ inThisBuild(
     ),
     scalacOptions ++= (
       if (scalaVersion.value.startsWith("3"))
-        Seq("-Ykind-projector")
+        Seq(
+          "-Ykind-projector",
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
       else Seq()
     )
   )
@@ -62,6 +65,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("core"))
   .settings(
     name := "zio-constraintless",
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("3"))
+        Seq(
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
+      else Seq()
+    },
     libraryDependencies ++= (
       if (scalaVersion.value.startsWith("3")) Seq()
       else
@@ -77,6 +87,13 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("examples"))
   .settings(
+    scalacOptions ++= {
+      if (scalaVersion.value.startsWith("3"))
+        Seq(
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+        )
+      else Seq()
+    },
     name := "zio-constraintless-examples",
     publish / skip := true
   )
