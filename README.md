@@ -21,7 +21,7 @@ _"The key principle that underpins our idea is that implementation- specific con
 ## Installation
 
 ```sbt
-libraryDependencies += "dev.zio" %% "constraintless" % "0.3.4"
+libraryDependencies += "dev.zio" %% "constraintless" % "0.3.5"
 ```
 
 ## Example 
