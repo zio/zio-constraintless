@@ -22,13 +22,13 @@ object Instances {
         case Head() =>
           use(
             c.asInstanceOf[C[B]]
-          ) // Coz we have compile time evidence that B is infact A
+          ) // We have compile-time evidence that B is in fact A
         case Tail(x) => ev.withInstance(use)(x)
       }
 
   }
 
-  // The definition is slightly from what mentioned in the paper where it traverses hlist
+  // The definition is slightly different from what is mentioned in the paper where it traverses hlist
   implicit def instancesEnd[C[_]]: Instances[C, End] = new Instances[C, End] {
     override def withInstance[B, D](use: C[B] => D)(implicit
         ev: `IsElementOf`[B, End]
