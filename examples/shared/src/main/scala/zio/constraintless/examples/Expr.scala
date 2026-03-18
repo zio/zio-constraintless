@@ -48,7 +48,7 @@ object Expr {
   ): Expr[As, A] =
     Value(a, e)
 
-  def prod[A, B, C, As <: TypeList](a: Expr[As, A], b: Expr[As, B])(implicit
+  def prod[A, B, As <: TypeList](a: Expr[As, A], b: Expr[As, B])(implicit
       e: A `IsElementOf` As,
       f: B `IsElementOf` As
   ): Expr[As, (A, B)] =

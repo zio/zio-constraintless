@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-java@v3.13.0
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17
           cache: 'sbt'
       - run: sbt +publishLocal
 
@@ -72,7 +72,7 @@ jobs:
         uses: actions/setup-java@v3.13.0
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17
           cache: 'sbt'
       - run: sbt ci-release
         env:

@@ -1,6 +1,6 @@
-val Scala212 = "2.12.20"
-val Scala213 = "2.13.16"
-val Scala3 = "3.7.1"
+val Scala212 = "2.12.21"
+val Scala213 = "2.13.18"
+val Scala3 = "3.8.2"
 
 inThisBuild(
   List(
@@ -68,7 +68,8 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     scalacOptions ++= {
       if (scalaVersion.value.startsWith("3"))
         Seq(
-          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s",
+          "-Wconf:msg=deprecated alias:s"
         )
       else Seq()
     },
@@ -77,7 +78,7 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       else
         Seq(
           compilerPlugin(
-            "org.typelevel" %% "kind-projector" % "0.13.3" cross CrossVersion.full
+            "org.typelevel" %% "kind-projector" % "0.13.4" cross CrossVersion.full
           )
         )
     )
@@ -90,7 +91,8 @@ lazy val examples = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     scalacOptions ++= {
       if (scalaVersion.value.startsWith("3"))
         Seq(
-          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
+          "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s",
+          "-Wconf:msg=deprecated alias:s"
         )
       else Seq()
     },
@@ -104,6 +106,8 @@ lazy val docs = project
   .in(file("zio-constraintless-docs"))
   .settings(
     name := "zio-constraintless-docs",
+    scalaVersion := Scala213,
+    crossScalaVersions := List(Scala213),
     scalacOptions -= "-Yno-imports",
     scalacOptions -= "-Xfatal-warnings",
     projectName := "ZIO Constraintless",
