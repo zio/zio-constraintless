@@ -9,3 +9,5 @@ project/metals.sbt
 .DS_Store/
 target
 .idea
+.direnv
+result
