@@ -114,7 +114,6 @@ lazy val docs = project
     mainModuleName := (core.jvm / moduleName).value,
     projectStage := ProjectStage.Development,
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core.jvm),
-    docsPublishBranch := "master",
     ciWorkflowName := "Website"
   )
   .dependsOn(core.jvm)

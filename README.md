@@ -21,7 +21,7 @@ _"The key principle that underpins our idea is that implementation- specific con
 ## Installation
 
 ```sbt
-libraryDependencies += "dev.zio" %% "constraintless" % "0.3.5"
+libraryDependencies += "dev.zio" %% "constraintless" % "0.3.6"
 ```
 
 ## Example
@@ -107,7 +107,7 @@ compileSM(expr)  // "if (1) then 1 else 0"
 **The key idea:** the expression is defined *once*, fully polymorphic over its interpreters.
 Each interpreter brings its own typeclass instances via `Instances[MyTypeClass, As]` — no duplication, no casting, no leaking implementation details into the definition.
 
-For a full worked example, see [Expr.scala](docs/https://github.com/zio/zio-constraintless/blob/master/examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala).
+For a full worked example, see [Expr.scala](https://github.com/zio/zio-constraintless/blob/master/examples/shared/src/main/scala/zio/constraintless/examples/Expr.scala).
 
 ## Context
 
@@ -171,11 +171,11 @@ Learn more on the [ZIO Constraintless homepage](https://zio.dev/zio-constraintle
 
 ## Contributing
 
-For the general guidelines, see ZIO [contributor's guide](https://zio.dev/about/contributing).
+For the general guidelines, see ZIO [contributor's guide](https://zio.dev/contributor-guidelines).
 
 ## Code of Conduct
 
-See the [Code of Conduct](https://zio.dev/about/code-of-conduct)
+See the [Code of Conduct](https://zio.dev/code-of-conduct)
 
 ## Support
 
