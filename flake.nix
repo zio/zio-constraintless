@@ -1,5 +1,5 @@
 {
-  description = "Dev shell matching GitHub Actions (Temurin 17 + Node 16 + sbt)";
+  description = "Dev shell matching GitHub Actions (Temurin 11 + Node 16 + sbt)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -28,8 +28,8 @@
         };
         node = pkgsNode.nodejs_16;
 
-        # release.yml + site.yml: distribution temurin, java-version: 17
-        jdk = pkgs.temurin-bin-17;
+        # ci.yml lint/publish/website: distribution temurin, java-version: 11
+        jdk = pkgs.temurin-bin-11;
 
         mkShell =
           jdkPkg: jdkLabel:
@@ -50,10 +50,12 @@
           };
       in
       {
-        # Default = GitHub Actions
-        devShells.default = mkShell jdk "Temurin 17";
-        # Optional local-only: nix develop .#jdk25
-        devShells.jdk25 = mkShell pkgs.temurin-bin-25 "Temurin 25";
+        # Default = GitHub Actions (ci.yml)
+        devShells.default = mkShell jdk "Temurin 11";
+        # site.yml uses Temurin 17
+        devShells.jdk17 = mkShell pkgs.temurin-bin-17 "Temurin 17";
+        # ci.yml test matrix also runs Temurin 21
+        devShells.jdk21 = mkShell pkgs.temurin-bin-21 "Temurin 21";
       }
     );
 }

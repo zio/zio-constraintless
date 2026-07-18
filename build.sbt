@@ -23,6 +23,7 @@ inThisBuild(
         url("https://github.com/afsalthaj")
       )
     ),
+    versionScheme := Some("early-semver"),
     crossScalaVersions := List(Scala212, Scala213, Scala3),
     scalaVersion := Scala213,
     scalacOptions ++= List(
