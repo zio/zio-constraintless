@@ -1,0 +1,138 @@
+name: CI
+
+env:
+  JDK_JAVA_OPTIONS: '-XX:+PrintCommandLineFlags -Xmx4G'
+  JVM_OPTS: '-XX:+PrintCommandLineFlags -Xmx4G'
+
+on:
+  pull_request:
+  push:
+    branches: ['master']
+  release:
+    types:
+      - published
+
+jobs:
+  website:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: temurin
+          # Scala 3.8.x compiler bridge requires Java 17+ (unlike zio-config's Scala 3.3)
+          java-version: 17
+          check-latest: true
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
+      - name: Check Document Generation
+        run: sbt docs/compileDocs
+
+  lint:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: temurin
+          java-version: 17
+          check-latest: true
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
+      - name: Check formatting and compile
+        run: sbt check
+
+  test:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17', '21']
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          check-latest: true
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Run tests
+        run: sbt +test
+
+  publishLocal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: temurin
+          java-version: 17
+          check-latest: true
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
+      - name: Publish locally
+        run: sbt +publishLocal
+
+  ci:
+    runs-on: ubuntu-22.04
+    needs: [website, lint, test, publishLocal]
+    steps:
+      - name: Report successful build
+        run: echo "ci passed"
+
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    needs: [ci]
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v4.5.0
+        with:
+          distribution: temurin
+          java-version: 17
+          check-latest: true
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+      - name: Cache scala dependencies
+        uses: coursier/cache-action@v6
+      - name: Release artifacts
+        run: sbt ci-release
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}

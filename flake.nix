@@ -28,7 +28,7 @@
         };
         node = pkgsNode.nodejs_16;
 
-        # release.yml + site.yml: distribution temurin, java-version: 17
+        # ci.yml + site.yml: Temurin 17 (Scala 3.8.x needs Java 17+)
         jdk = pkgs.temurin-bin-17;
 
         mkShell =
@@ -50,10 +50,10 @@
           };
       in
       {
-        # Default = GitHub Actions
+        # Default = GitHub Actions (ci.yml)
         devShells.default = mkShell jdk "Temurin 17";
-        # Optional local-only: nix develop .#jdk25
-        devShells.jdk25 = mkShell pkgs.temurin-bin-25 "Temurin 25";
+        # ci.yml test matrix also runs Temurin 21
+        devShells.jdk21 = mkShell pkgs.temurin-bin-21 "Temurin 21";
       }
     );
 }
