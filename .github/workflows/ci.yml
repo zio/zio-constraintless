@@ -23,7 +23,8 @@ jobs:
         uses: actions/setup-java@v4.5.0
         with:
           distribution: temurin
-          java-version: 11
+          # Scala 3.8.x compiler bridge requires Java 17+ (unlike zio-config's Scala 3.3)
+          java-version: 17
           check-latest: true
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
@@ -44,7 +45,7 @@ jobs:
         uses: actions/setup-java@v4.5.0
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
           check-latest: true
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
@@ -59,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: ['11', '21']
+        java: ['17', '21']
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v3.3.0
@@ -92,7 +93,7 @@ jobs:
         uses: actions/setup-java@v4.5.0
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
           check-latest: true
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
@@ -122,7 +123,7 @@ jobs:
         uses: actions/setup-java@v4.5.0
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
           check-latest: true
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
