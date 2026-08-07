@@ -1,3 +1,6 @@
+import zio.sbt.ZioSbtCiPlugin._
+import zio.sbt.githubactions.{Job, Step, Strategy}
+
 val Scala212 = "2.12.21"
 val Scala213 = "2.13.18"
 val Scala3 = "3.8.2"
@@ -38,12 +41,39 @@ inThisBuild(
           "-Wconf:msg=Implicit parameters should be provided with a `using` clause:s"
         )
       else Seq()
+    ),
+    ciEnabledBranches := Seq("master"),
+    ciTargetJavaVersions := Seq("17", "21"),
+    ciTestJobs := Seq(
+      Job(
+        id = "test",
+        name = "Test",
+        strategy = Some(
+          Strategy(
+            matrix = Map("java" -> ciTargetJavaVersions.value.toList),
+            failFast = false
+          )
+        ),
+        steps = Seq(
+          SetupLibuv,
+          SetupJava("${{ matrix.java }}"),
+          SetupSBT,
+          CacheDependencies,
+          Checkout.value,
+          SetupNodeJs,
+          Step.SingleStep(
+            name = "Test",
+            run = Some("sbt +test")
+          )
+        )
+      )
     )
   )
 )
 
 addCommandAlias("fix", "; all scalafmtSbt scalafmtAll")
 addCommandAlias("check", "; scalafmtSbtCheck; scalafmtCheckAll; Test/compile")
+addCommandAlias("lint", "check")
 
 lazy val root =
   project
@@ -114,8 +144,10 @@ lazy val docs = project
     projectName := "ZIO Constraintless",
     mainModuleName := (core.jvm / moduleName).value,
     projectStage := ProjectStage.Development,
-    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core.jvm),
-    ciWorkflowName := "Website"
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(core.jvm)
+    // `ciWorkflowName` (zio-sbt-website) intentionally left at its default ("CI") — referencing
+    // it here would be ambiguous with zio-sbt-ci's key of the same name until that plugin's
+    // `ciWorkflowName` -> `ciWorkflowTitle` rename (zio/zio-sbt#716) is in a published release.
   )
   .dependsOn(core.jvm)
   .enablePlugins(BuildInfoPlugin)
