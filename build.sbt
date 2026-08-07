@@ -1,3 +1,4 @@
+import zio.json.ast.Json
 import zio.sbt.ZioSbtCiPlugin._
 import zio.sbt.githubactions.{Job, Step, Strategy}
 
@@ -67,7 +68,22 @@ inThisBuild(
           )
         )
       )
-    )
+    ),
+    // Works around a bug shared with zio-sbt's own release workflow (e.g. zio/zio-sbt#v0.6.3):
+    // a `release`-triggered run checks out the tag, so HEAD is detached, and
+    // `peter-evans/create-pull-request` then requires an explicit `base` to know which branch to
+    // target — the plugin's default step doesn't set one.
+    ciUpdateReadmeJobs := updateReadmeJobs.value.map { job =>
+      job.copy(steps = job.steps.map {
+        case s: Step.SingleStep if s.name == "Create Pull Request" =>
+          s.copy(parameters =
+            s.parameters + ("base" -> Json.Str(
+              "${{ github.event.repository.default_branch }}"
+            ))
+          )
+        case other => other
+      })
+    }
   )
 )
 
