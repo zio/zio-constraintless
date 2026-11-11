@@ -6,7 +6,7 @@
 
 ZIO Constraintless allows you to build programs as mere descriptions with maximum polymorphism, maximum modularity, zero abstraction leakage, and zero casting.
 
-[![Development](https://img.shields.io/badge/Project%20Stage-Development-green.svg)](https://github.com/zio/zio/wiki/Project-Stages) ![CI Badge](https://github.com/zio/zio-constraintless/workflows/Website/badge.svg) [![Sonatype Releases](https://img.shields.io/nexus/r/https/oss.sonatype.org/dev.zio/zio-constraintless_2.13.svg?label=Sonatype%20Release)](https://oss.sonatype.org/content/repositories/releases/dev/zio/zio-constraintless_2.13/) [![Sonatype Snapshots](https://img.shields.io/nexus/s/https/oss.sonatype.org/dev.zio/zio-constraintless_2.13.svg?label=Sonatype%20Snapshot)](https://oss.sonatype.org/content/repositories/snapshots/dev/zio/zio-constraintless_2.13/) [![javadoc](https://javadoc.io/badge2/dev.zio/zio-constraintless-docs_2.13/javadoc.svg)](https://javadoc.io/doc/dev.zio/zio-constraintless-docs_2.13) [![ZIO Constraintless](https://img.shields.io/github/stars/zio/zio-constraintless?style=social)](https://github.com/zio/zio-constraintless)
+[![Development](https://img.shields.io/badge/Project%20Stage-Development-green.svg)](https://github.com/zio/zio/wiki/Project-Stages) ![CI Badge](https://github.com/zio/zio-constraintless/workflows/CI/badge.svg) [![Sonatype Releases](https://img.shields.io/maven-central/v/dev.zio/zio-constraintless_2.13.svg?label=Sonatype%20Release)](https://central.sonatype.com/artifact/dev.zio/zio-constraintless_2.13) [![Sonatype Snapshots](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fdev%2Fzio%2Fzio-constraintless_2.13%2Fmaven-metadata.xml&label=Sonatype%20Snapshot)](https://central.sonatype.com/repository/maven-snapshots/dev/zio/zio-constraintless_2.13/) [![javadoc](https://javadoc.io/badge2/dev.zio/zio-constraintless_2.13/javadoc.svg)](https://javadoc.io/doc/dev.zio/zio-constraintless_2.13) [![ZIO Constraintless](https://img.shields.io/github/stars/zio/zio-constraintless?style=social)](https://github.com/zio/zio-constraintless)
 
 ## Introduction
 
@@ -21,7 +21,7 @@ _"The key principle that underpins our idea is that implementation- specific con
 ## Installation
 
 ```sbt
-libraryDependencies += "dev.zio" %% "constraintless" % "0.3.6"
+libraryDependencies += "dev.zio" %% "constraintless" % "0.3.9"
 ```
 
 ## Example
