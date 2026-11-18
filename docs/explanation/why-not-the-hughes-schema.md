@@ -9,7 +9,7 @@ keywords:
   - "Deconstraining"
 ---
 
-The Hughes schema is the best-known way to put constraints on the nodes of a GADT: the data type takes a type parameter `p` that stands for the interpreter, and each node requires a `Typeable p a` instance. It does not allow a single expression to be used by a compiler with multiple, different constraints. This page shows why, using excerpts from the paper [Deconstraining](https://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf). The snippets are Haskell, shown here for explanation; they are not compiled.
+The Hughes schema puts constraints on the nodes of a GADT by giving the data type a type parameter `p` that stands for the target platform, which here means the interpreter, and by requiring a `Typeable p a` instance in each node. It does not allow a single expression to be used by a compiler with multiple, different constraints. This page shows why, using excerpts from the paper [Deconstraining](https://web.archive.org/web/20260115140505/http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf). The snippets are Haskell, shown here for explanation; they are not compiled.
 
 ## The Encoding
 
