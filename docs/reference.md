@@ -159,7 +159,7 @@ object Instances {
 }
 ```
 
-The two implicit methods build an `Instances` value from the list: `instancesCons` needs the instance for the head `C[A]` and the `Instances` of the tail, and `instancesEnd` is the base case for `End`. The compiler therefore derives `Instances[C, As]` only if a `C` instance exists for every type in `As`. A missing instance makes the whole `Instances` value unavailable, and the error is reported where the interpreter is called.
+The two implicit methods build an `Instances` value from the list: `Instances.instancesCons` needs the instance for the head `C[A]` and the `Instances` of the tail, and `Instances.instancesEnd` is the base case for `End`. The compiler therefore derives `Instances[C, As]` only if a `C` instance exists for every type in `As`. A missing instance makes the whole `Instances` value unavailable, and the error is reported where the interpreter is called.
 
 `Instances#withInstance` takes a function from the instance to a result, and the evidence `ev` selects which instance is passed to it. The implementation matches on the evidence: for `Head` it uses the head instance, and for `Tail(x)` it continues with the tail. To use it, we define a type class and select an instance for a value of an allowed type:
 

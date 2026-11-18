@@ -37,7 +37,6 @@ object Show {
   implicit val string: Show[String] = (a: String) => a
   implicit val boolean: Show[Boolean] = (a: Boolean) => a.toString
 }
-
 ```
 
 ## State the Requirement
@@ -55,7 +54,7 @@ def prettyFirst[H, T <: TypeList, Large <: TypeList](h: H)(implicit
   }
 ```
 
-The signature is the useful part: callers can only supply a `Large` that contains every type of `H :: T`. The first case of the evidence, `TypeCollection`, holds the `IsElementOf` evidence for `H`, which is what `Instances#withInstance` needs. To call the function with the small list `Int :: End` and the large list:
+The signature is the useful part: callers can only supply a `Large` that contains every type of `H :: T`. The first case of the evidence, `TypeCollection`, holds the [`IsElementOf`](../reference.md#iselementof) evidence for `H`, which is what `Instances#withInstance` needs. To call the function with the small list `Int :: End` and the large list:
 
 ```scala mdoc
 prettyFirst[Int, End, Large](7)

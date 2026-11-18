@@ -58,7 +58,7 @@ case class Sum[As <: TypeList](left: Expr[As, Int], right: Expr[As, Int]) extend
 
 def pretty[As <: TypeList, A](e: Expr[As, A])(implicit show: Instances[Show, As]): String =
   e match {
-    case Value(a, ev)  => show.withInstance((s: Show[A]) => s.show(a))(ev)
+    case Value(a, ev) => show.withInstance((s: Show[A]) => s.show(a))(ev)
     case Sum(left, right) => s"${pretty(left)} + ${pretty(right)}"
   }
 ```

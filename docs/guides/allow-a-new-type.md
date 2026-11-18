@@ -15,7 +15,7 @@ We'll add the type to the list, read the error, and add the instances one interp
 
 ## The Problem
 
-The allowed types of a program live in one `TypeList`, and every interpreter needs an instance of its type class for each of them. Adding a type therefore affects every interpreter, and forgetting one of them must not turn into a runtime crash. With ZIO Constraintless the compiler reports the missing instance, and in this guide we use that report to find every place that needs work.
+The allowed types of a program live in one [`TypeList`](../reference.md#typelist), and every interpreter needs an instance of its type class for each of them. Adding a type therefore affects every interpreter, and forgetting one of them must not turn into a runtime crash. With ZIO Constraintless the compiler reports the missing instance, and in this guide we use that report to find every place that needs work.
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ Constructing the value needs no instance. Only the interpreters that run on the 
 
 ## Read the Error
 
-Running `pretty` on the new list needs `Instances[Show, Extended]`, and there is no `Show[Double]` yet. The compiler does not accept the call:
+Running `pretty` on the new list needs [`Instances[Show, Extended]`](../reference.md#instances), and there is no `Show[Double]` yet. The compiler does not accept the call:
 
 ```scala mdoc:fail
 pretty(pi)

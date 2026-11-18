@@ -14,7 +14,7 @@ import TabItem from '@theme/TabItem';
 
 In this guide, we write the same small program for Scala 2 and for Scala 3 and see where the two differ. By the end, you will be able to translate a program between the two versions or share a design between projects on different versions.
 
-The library itself is the same on both versions: `TypeList`, `IsElementOf`, `AreElementsOf` and `Instances` have the same members. Only the way a program asks for evidence and instances changes.
+The library itself is the same on both versions: [`TypeList`](../reference.md#typelist), [`IsElementOf`](../reference.md#iselementof), [`AreElementsOf`](../reference.md#areelementsof) and [`Instances`](../reference.md#instances) have the same members. Only the way a program asks for evidence and instances changes.
 
 ## The Problem
 
@@ -145,7 +145,7 @@ println(pretty(expr))
 On Scala 3 the program prints `if true then 1 else 0`.
 
 :::note
-The Scala 3 snippets on this page are not compiled by the documentation build, which runs on Scala 2.13. They were compiled and run separately against the released library on Scala 3.8.2.
+The Scala 3 snippets on this page are not compiled by the documentation build, which runs on Scala 2.13. They are compiled and run separately against the released library on Scala 3.8.2.
 :::
 
 ## Going Further

@@ -52,7 +52,7 @@ The line `type Allowed = Int :: Boolean :: End` builds a list with the head `Int
 
 ## 2. Write the Expression Tree
 
-Our tree has two nodes: `Value` holds a value, and `Cond` chooses between two branches. Each node that holds a value of type `A` also holds `IsElementOf` evidence that `A` is allowed:
+Our tree has two nodes: `Value` holds a value, and `Cond` chooses between two branches. Each node that holds a value of type `A` also holds [`IsElementOf`](./reference.md#iselementof) evidence that `A` is allowed:
 
 ```scala mdoc:silent
 sealed trait Expr[As <: TypeList, A]
@@ -104,7 +104,7 @@ object Show {
 }
 ```
 
-The interpreter asks for `Instances[Show, As]`, which holds a `Show` instance for every type in `As`:
+The interpreter asks for [`Instances[Show, As]`](./reference.md#instances), which holds a `Show` instance for every type in `As`:
 
 ```scala mdoc:silent
 def pretty[As <: TypeList, A](e: Expr[As, A])(implicit show: Instances[Show, As]): String =
@@ -118,7 +118,7 @@ def pretty[As <: TypeList, A](e: Expr[As, A])(implicit show: Instances[Show, As]
 
 `Instances[Show, As]` is requested once, in the signature, and the compiler builds it at the call site. The method `Instances#withInstance` selects the `Show[A]` instance for the leaf, using the evidence `ev` stored in the node. No `asInstanceOf` appears in our code.
 
-To see it work:
+To pretty-print the expression built above:
 
 ```scala mdoc
 pretty(expr)
