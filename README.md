@@ -23,7 +23,7 @@ ZIO Constraintless is published for Scala 2.12, 2.13 and 3 (the Scala 3 artifact
 ```scala
 libraryDependencies ++= Seq(
   // Type-level lists, membership evidence and Instances (JVM)
-  "dev.zio" %% "zio-constraintless" % "0.3.9"
+  "dev.zio" %% "zio-constraintless" % "0.3.10"
 )
 ```
 
@@ -32,7 +32,7 @@ For a Scala.js or Scala Native project, use `%%%` instead:
 ```scala
 libraryDependencies ++= Seq(
   // Type-level lists, membership evidence and Instances (Scala.js and Scala Native)
-  "dev.zio" %%% "zio-constraintless" % "0.3.9"
+  "dev.zio" %%% "zio-constraintless" % "0.3.10"
 )
 ```
 
