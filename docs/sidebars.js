@@ -2,13 +2,8 @@ const sidebars = {
   sidebar: [
     "index",
     "getting-started",
-    {
-      type: "category",
-      label: "Concepts",
-      collapsed: false,
-      link: { type: "doc", id: "explanation/index" },
-      items: ["explanation/why-not-the-hughes-schema"]
-    },
+    "explanation/index",
+    "explanation/why-not-the-hughes-schema",
     "reference",
     "tutorial",
     {
