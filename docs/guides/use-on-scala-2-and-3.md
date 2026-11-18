@@ -69,7 +69,7 @@ object Show:
 
 ## Define the Expression and the Interpreter
 
-On Scala 3, an `enum` can hold the evidence in a `using` clause of its case. An interpreter then asks for `Instances` with `using`, and passes the evidence to `withInstance` explicitly with `using`. The Scala 3 code writes the evidence as `IsElementOf[A, As]`, because the compiler warns about alphanumeric infix types when `IsElementOf` is written infix:
+On Scala 3, an `enum` can hold the evidence in a `using` clause of its case. An interpreter then asks for `Instances` with `using`, and passes the evidence to `Instances#withInstance` explicitly with `using`. The Scala 3 code writes the evidence as `IsElementOf[A, As]`, because the compiler warns about alphanumeric infix types when `IsElementOf` is written infix:
 
 <Tabs groupId="scala-version" defaultValue="scala2">
   <TabItem value="scala2" label="Scala 2">

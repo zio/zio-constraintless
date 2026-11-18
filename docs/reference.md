@@ -10,7 +10,7 @@ keywords:
   - "Instances"
 ---
 
-ZIO Constraintless lets a data type record which types it may contain, and lets each interpreter supply its own type class instances for those types. It consists of four types in the package `zio.constraintless`: `TypeList`, `IsElementOf`, `AreElementsOf` and `Instances`.
+ZIO Constraintless lets a data type record which types it may contain, and lets each interpreter supply its own type class instances for those types. It consists of four types in the package `zio.constraintless`: `TypeList`, `IsElementOf`, `AreElementsOf` and `Instances`. Their declarations are:
 
 ```scala
 sealed trait TypeList
@@ -27,6 +27,8 @@ A program is described with a [`TypeList`](#typelist) as a type parameter. Each 
 2. Define a data type with a `TypeList` parameter, whose nodes hold `A IsElementOf As` evidence.
 3. Write an interpreter that requires `Instances[TypeClass, As]` and calls `Instances#withInstance` with the node's evidence.
 4. Provide a type class instance for each allowed type where the interpreter is called.
+
+The relationships between the four types look like this:
 
 ```
 TypeList ─────────────── lists the allowed types ──────────────┐
@@ -49,7 +51,7 @@ import zio.constraintless.TypeList._
 
 ## TypeList
 
-`TypeList` is a type-level list. It has no values: it exists so that the compiler can track a set of types.
+`TypeList` is a type-level list. It has no values: it exists so that the compiler can track a set of types. Its declaration is:
 
 ```scala
 sealed trait TypeList
@@ -92,7 +94,7 @@ object IsElementOf {
 IsElementOf[Boolean, Types]
 ```
 
-The evidence for the first element is a `Head`, and the evidence for a later element is a chain of `Tail` values that ends in a `Head`. For a type that is not in the list, no evidence exists and the code does not compile.
+The evidence for the first element is a `Head`, and the evidence for a later element is a chain of `Tail` values that ends in a `Head`. For a type that is not in the list, no evidence exists and the code does not compile:
 
 ```scala mdoc:fail
 IsElementOf[Double, Types]
@@ -188,7 +190,7 @@ render("zio")
 ```
 
 :::note
-`Instances#withInstance` contains one `asInstanceOf`, inside the library, to treat the head instance as a `TypeClass[B]` once the evidence says `B` is the head. `instancesEnd` is the instance for the empty list, and its `withInstance` throws the error "unreachable": no `IsElementOf` evidence can exist for an element of `End`, so the method cannot be called with valid evidence.
+`Instances#withInstance` contains one `asInstanceOf`, inside the library, to treat the head instance as a `TypeClass[B]` once the evidence says `B` is the head. `instancesEnd` is the instance for the empty list, and its `Instances#withInstance` throws the error "unreachable": no `IsElementOf` evidence can exist for an element of `End`, so the method cannot be called with valid evidence.
 :::
 
 ## Platforms and Scala Versions

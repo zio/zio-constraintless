@@ -57,7 +57,7 @@ object Describe {
 }
 ```
 
-[`Instances[Describe, Allowed]`](./reference.md#instances) bundles the `Describe` instance of every type in `Allowed`. Its `withInstance` method selects the instance for one type, using the membership evidence as proof that the instance exists. A function that describes any allowed value:
+[`Instances[Describe, Allowed]`](./reference.md#instances) bundles the `Describe` instance of every type in `Allowed`. Its `Instances#withInstance` method selects the instance for one type, using the membership evidence as proof that the instance exists. A function that describes any allowed value:
 
 ```scala mdoc:silent
 def describe[A, As <: TypeList](a: A)(implicit

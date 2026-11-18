@@ -10,11 +10,11 @@ ZIO Constraintless allows you to build programs as mere descriptions with maximu
 
 ## Introduction
 
-ZIO Constraintless is a Scala take on the paper [Deconstraining](https://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf), which shows how to parametrise a program with logical constraints at every node without compromising modularity. An excerpt from the paper:
+ZIO Constraintless is a Scala take on the paper [Deconstraining](https://web.archive.org/web/20260115140505/http://www.doc.ic.ac.uk/~wlj05/files/Deconstraining.pdf), which shows how to parametrise a program with logical constraints at every node without compromising modularity. An excerpt from the paper:
 
 _"The key principle that underpins our idea is that implementation-specific constraints should be imposed at the point of use of a data type, not at the point of definition, i.e. it embodies the established principle that an interface should be separated from its implementation(s)."_
 
-The library is small. It has four types: `TypeList` describes the types a program may contain, `IsElementOf` and `AreElementsOf` prove that types belong to such a list, and `Instances` turns a list of types into the type class instances an interpreter needs.
+The library is small. It has four types: [`TypeList`](./reference.md#typelist) describes the types a program may contain, [`IsElementOf`](./reference.md#iselementof) and [`AreElementsOf`](./reference.md#areelementsof) prove that types belong to such a list, and [`Instances`](./reference.md#instances) turns a list of types into the type class instances an interpreter needs.
 
 ## Installation
 

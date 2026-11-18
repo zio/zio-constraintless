@@ -39,7 +39,7 @@ An expression tree is a description of a program, and interpreters give it meani
 
 ## 1. Choose the Allowed Types
 
-Let's start with the types our expressions may contain. We make a `TypeList` of `Int` and `Boolean`:
+Let's start with the types our expressions may contain. We make a [`TypeList`](./reference.md#typelist) of `Int` and `Boolean`:
 
 ```scala mdoc:silent
 import zio.constraintless._
@@ -66,10 +66,7 @@ case class Cond[As <: TypeList, A](
 ) extends Expr[As, A]
 ```
 
-The code above:
-- `Expr[As <: TypeList, A]` is an expression that may contain the types in `As` and evaluates to an `A`.
-- `Value` stores the evidence `ev` next to the value, so any interpreter can later find the instance for `A`.
-- `Cond` needs no evidence itself: its children are already constrained by the same `As`.
+`Expr[As <: TypeList, A]` is an expression that may contain the types in `As` and evaluates to an `A`. `Value` stores the evidence `ev` next to the value, so any interpreter can later find the instance for `A`. `Cond` needs no evidence itself, because its children are already constrained by the same `As`.
 
 To build expressions without writing the evidence by hand, we add two helper functions. The compiler derives the evidence from the expected type:
 
@@ -119,10 +116,7 @@ def pretty[As <: TypeList, A](e: Expr[As, A])(implicit show: Instances[Show, As]
   }
 ```
 
-The code above:
-- `Instances[Show, As]` is requested once, in the signature. The compiler builds it at the call site.
-- `withInstance` selects the `Show[A]` instance for the leaf, using the evidence `ev` stored in the node.
-- No `asInstanceOf` appears in our code.
+`Instances[Show, As]` is requested once, in the signature, and the compiler builds it at the call site. The method `Instances#withInstance` selects the `Show[A]` instance for the leaf, using the evidence `ev` stored in the node. No `asInstanceOf` appears in our code.
 
 To see it work:
 
@@ -153,7 +147,7 @@ def leaves[As <: TypeList, A](e: Expr[As, A])(implicit ints: Instances[ToInt, As
   }
 ```
 
-Notice that we did not change `Expr`, `Value` or `Cond`. The new interpreter brings `ToInt` at the point of use.
+Notice that `Expr`, `Value` and `Cond` stay unchanged. The new interpreter brings `ToInt` at the point of use.
 
 ## 5. Run Both on One Expression
 
@@ -165,7 +159,7 @@ pretty(expr)
 leaves(expr)
 ```
 
-This is the property the library exists for. The expression was built once, and each interpreter used the type class it needed.
+This is the property the library exists for. The expression is built once, and each interpreter uses the type class it needs.
 
 :::note
 With the Hughes schema, the type of the expression would be tied to one interpreter, so the second call would be impossible. For the explanation, see [Why Not the Hughes Schema?](./explanation/why-not-the-hughes-schema.md).

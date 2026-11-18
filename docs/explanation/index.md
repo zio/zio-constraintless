@@ -29,7 +29,7 @@ The second is to duplicate the whole data type once per interpreter. The third i
 
 The paper behind this library puts it in one sentence: constraints belong at the point of use of a data type, not at the point of definition. In ZIO Constraintless the definition of the data type records only which types are allowed in it, using a [`TypeList`](../reference.md#typelist). Each node carries [`IsElementOf`](../reference.md#iselementof) evidence that its type is one of them.
 
-An interpreter then asks for [`Instances`](../reference.md#instances) of its own type class for the whole list. Because every node's evidence says "my type is in the list", the interpreter can look up the instance for that node's type with no cast at the call site.
+An interpreter then asks for [`Instances`](../reference.md#instances) of its own type class for the whole list. Because every node's evidence says "my type is in the list", the interpreter can look up the instance for that node's type with no cast at the call site. The following diagram contrasts the definition site with the point of use:
 
 ```
               definition site                         point of use
@@ -44,7 +44,7 @@ The data type is defined once. Adding a new interpreter means adding a new funct
 
 ## Why There Is One Cast Inside the Library
 
-`Instances.withInstance` is implemented with a single `asInstanceOf`, inside the library. The membership evidence is what makes it sound: a proof that `B` is the head of the list means the head instance is a `TypeClass[B]`. Users of the library never write that cast. For the details, see [`Instances`](../reference.md#instances).
+`Instances#withInstance` is implemented with a single `asInstanceOf`, inside the library. The membership evidence is what makes it sound: a proof that `B` is the head of the list means the head instance is a `TypeClass[B]`. Users of the library never write that cast. For the details, see [`Instances`](../reference.md#instances).
 
 ## Further Reading
 
