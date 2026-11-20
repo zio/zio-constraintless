@@ -21,19 +21,15 @@ The library is small. It has four types: [`TypeList`](./reference.md#typelist) d
 ZIO Constraintless is published for Scala 2.12, 2.13 and 3 (the Scala 3 artifact needs Scala 3.8 or newer). Add the following to your `build.sbt` file for a JVM project:
 
 ```scala
-libraryDependencies ++= Seq(
-  // Type-level lists, membership evidence and Instances (JVM)
-  "dev.zio" %% "zio-constraintless" % "@VERSION@"
-)
+// Type-level lists, membership evidence and Instances (JVM)
+libraryDependencies += "dev.zio" %% "zio-constraintless" % "@VERSION@"
 ```
 
 For a Scala.js or Scala Native project, use `%%%` instead:
 
 ```scala
-libraryDependencies ++= Seq(
-  // Type-level lists, membership evidence and Instances (Scala.js and Scala Native)
-  "dev.zio" %%% "zio-constraintless" % "@VERSION@"
-)
+// Type-level lists, membership evidence and Instances (Scala.js and Scala Native)
+libraryDependencies += "dev.zio" %%% "zio-constraintless" % "@VERSION@"
 ```
 
 ## Example
