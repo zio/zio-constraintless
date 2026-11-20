@@ -6,9 +6,9 @@ import `IsElementOf`._
   * pick the instance for a type `B` that is only known, through [[IsElementOf]]
   * evidence, to be in `As`.
   *
-  * The compiler derives `Instances[TypeClass, A :: As]` when it finds a
-  * `TypeClass[A]` in implicit scope and the `Instances` of the rest of the
-  * list. The code does not compile if one of the types has no instance.
+  * The compiler derives `Instances[TypeClass, A :: As]` when an implicit
+  * `TypeClass[A]` is available and the `Instances` of the rest of the list
+  * exist. The code does not compile if one of the types has no instance.
   *
   * {{{
   * import zio.constraintless.TypeList._
@@ -35,7 +35,8 @@ import `IsElementOf`._
 trait Instances[TypeClass[_], As <: TypeList] {
 
   /** Calls `use` with the `TypeClass` instance for `B` and returns its result.
-    * The instance is the one held for the position of `B` that `ev` proves.
+    * The instance is the one held for the position of `B` that `ev` proves; the
+    * derived evidence points at the first position of `B` in the list.
     */
   def withInstance[B, D](use: TypeClass[B] => D)(implicit
       ev: B `IsElementOf` As
@@ -69,8 +70,9 @@ object Instances {
 
   // The definition is slightly different from what is mentioned in the paper where it traverses hlist
   /** Derives the instances for the empty list, which holds none. Its
-    * `withInstance` throws a `RuntimeException` with the message `unreachable`,
-    * because no [[IsElementOf]] evidence exists for the empty list.
+    * `withInstance` throws a `java.lang.RuntimeException` with the message
+    * `unreachable`. No `IsElementOf[B, End]` value can be built without a cast
+    * or `null`, so a well-typed call never gets there.
     */
   implicit def instancesEnd[C[_]]: Instances[C, End] = new Instances[C, End] {
     override def withInstance[B, D](use: C[B] => D)(implicit

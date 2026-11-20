@@ -4,8 +4,8 @@ import TypeList.{::, End}
 
 /** Evidence that every type in the list `T1` is an element of the list `T2`.
   * The compiler derives it from [[IsElementOf]] evidence for each type of `T1`,
-  * and the code does not compile when a type of `T1` is missing from `T2`. The
-  * empty list is an element-wise subset of every list.
+  * and the code does not compile when a type of `T1` is missing from `T2`. For
+  * the empty list `End`, the evidence exists for every list `T2`.
   *
   * {{{
   * import zio.constraintless.TypeList._

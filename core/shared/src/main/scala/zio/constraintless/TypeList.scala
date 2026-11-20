@@ -2,7 +2,7 @@ package zio.constraintless
 
 /** A type-level list of types. It has no values: it exists so that the compiler
   * can track which types a data type may contain. A list is built from
-  * [[TypeList.::]] and ends with [[TypeList.End]], for example `Int :: Boolean
+  * [[TypeList.::]] and ends with [[TypeList.End]], for example `Int :: String
   * :: End`.
   *
   * {{{
@@ -26,7 +26,7 @@ object TypeList {
     */
   sealed trait ::[H, T <: TypeList] extends TypeList
 
-  /** The empty list, which ends every [[TypeList]].
+  /** The empty list, which closes a list such as `Int :: Boolean :: End`.
     */
   sealed trait End extends TypeList
 }

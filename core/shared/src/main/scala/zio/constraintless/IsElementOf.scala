@@ -4,20 +4,22 @@ import TypeList._
 
 /** Evidence that `Type` is an element of the list `Types`. The compiler derives
   * it for a type that is in the list, and the code does not compile for a type
-  * that is not. `IsElementOf` is invariant, so `Type` must appear in the list
-  * itself, not as a subtype of an element.
+  * that is not. `IsElementOf` is invariant, so `Type` must be one of the listed
+  * types itself: a subtype or a supertype of an element does not count. When a
+  * type appears more than once, the derived evidence points at its first
+  * position.
   *
   * A value is either [[IsElementOf.Head]], for the first element, or
   * [[IsElementOf.Tail]], for an element of the rest of the list. It can be
-  * written infix: ``A `IsElementOf` As``.
+  * written infix with the name in backticks, as in the example.
   *
   * {{{
   * import zio.constraintless.TypeList._
   *
   * type Allowed = Int :: Boolean :: End
   *
-  * val first: Int IsElementOf Allowed       = IsElementOf[Int, Allowed]
-  * val second: Boolean IsElementOf Allowed  = IsElementOf[Boolean, Allowed]
+  * val first: Int `IsElementOf` Allowed      = IsElementOf[Int, Allowed]
+  * val second: Boolean `IsElementOf` Allowed = IsElementOf[Boolean, Allowed]
   * // first is Head(), second is Tail(Head())
   * }}}
   *
